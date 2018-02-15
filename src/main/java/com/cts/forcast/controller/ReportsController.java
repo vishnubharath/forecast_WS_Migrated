@@ -3,7 +3,9 @@ package com.cts.forcast.controller;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,7 +47,32 @@ public class ReportsController {
 	@RequestMapping(value = "/reports/all", method = RequestMethod.GET, headers = "Accept=application/json")
 	public Collection<Report> getFilterCondition() {
 		System.out.println("Enterting /reports/all");
-		return reportsService.getAll();
+		//return reportsService.getAll();
+		List<Report> list=new ArrayList<Report>();
+		for(int i=0;i<100;i++) {
+			Report rep=new Report();
+			rep.setEmployeeId(new Random().nextLong());
+			rep.setProjectId(new Random().nextLong());
+			rep.setLocationId(new Random().nextLong());
+			rep.setEsaProjectName("Esatest.."+i);
+			rep.setLocation("location.."+i);
+			rep.setAssociateName("associateName.."+i);
+			rep.setLob("lob.."+i);
+			rep.setType("type.."+1);
+			rep.setLeave_days("day.."+i);
+			rep.setTotalRate(new BigDecimal("0.02"));
+			rep.setMonth("May");
+			rep.setYear(2018);
+			rep.setTotalHours(i);
+			rep.setAllocation_end_date(new Date());
+			rep.setAllocation_start_date(new Date());
+			rep.setVacationNonBillableDays(i);
+			rep.setVacationNonBillableHours(i);
+			rep.setRate(0.0f);
+			rep.setLocation_type("chennai");
+			list.add(rep);
+		}
+		return list;
 	}
 
 	@RequestMapping(value = "/reports/hours/{locationType}/{locationId}/{year}/{month}", method = RequestMethod.GET, headers = "Accept=application/json")
