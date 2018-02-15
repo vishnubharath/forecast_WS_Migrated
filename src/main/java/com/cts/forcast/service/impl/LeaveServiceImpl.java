@@ -23,7 +23,7 @@ import com.cts.forcast.service.LeaveService;
 @Service("leaveService")
 public class LeaveServiceImpl implements LeaveService {
 
-	@Autowired
+	//@Autowired
 	private LeaveDao leaveDao;
 
 	@Value("${leave.forecast.months}")

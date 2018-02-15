@@ -15,7 +15,7 @@ import com.cts.forcast.service.HolidayService;
 @Service("holidayService")
 public class HolidayServiceImpl implements HolidayService {
 
-	@Autowired
+	//@Autowired
 	private HolidayDao holidayDao;
 
 	public Collection<Holiday> getHolidays() {

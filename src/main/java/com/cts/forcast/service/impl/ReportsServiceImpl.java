@@ -15,7 +15,7 @@ import com.cts.forcast.service.ReportsService;
 @Service("reportsService")
 public class ReportsServiceImpl implements ReportsService {
 
-	@Autowired
+	//@Autowired
 	private ReportsDao reportsDao;
 
 	@SuppressWarnings("serial")

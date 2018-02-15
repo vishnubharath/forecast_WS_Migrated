@@ -28,10 +28,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Service("pipelineService")
 public class PipelineServiceImpl implements PipelineService {
 
-	@Autowired
+	//@Autowired
 	PipelineDao pipelineDao;
 
-	@Autowired
+	//@Autowired
 	StaffingDao staffingDao;
 
 	@Autowired

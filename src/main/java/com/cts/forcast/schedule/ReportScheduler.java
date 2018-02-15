@@ -35,7 +35,8 @@ public class ReportScheduler {
 
 	@Autowired
 	private HolidayService holidayService;
-	@Autowired
+	
+	//@Autowired
 	private ReportsDao reportsDao;
 
 	@Resource(name = "locationBillableHours")
@@ -50,7 +51,11 @@ public class ReportScheduler {
 
 		Map<Long, List<Date>> holidaysByLocationId = loadHolidays(holidayService.getAllHolidaysByLocation());
 		Map<String, Integer> businessCalendarByYearMonth = loadBusinessCalendar();
-		Collection<Report> reports = reportsDao.getAllLeaves();
+		
+		// Removed Current DAO Layer
+		//Collection<Report> reports = reportsDao.getAllLeaves();
+		Collection<Report> reports = null;
+				
 		if (CollectionUtils.isNotEmpty(reports)) {
 			if (CollectionUtils.isNotEmpty(reports)) {
 				reports.forEach(report -> {
@@ -85,6 +90,8 @@ public class ReportScheduler {
 
 	private Map<Long, List<Date>> loadHolidays(List<KeyValuePair<Long, Date>> holidays) {
 
+		if(holidays == null ) return null;
+		
 		final Map<Long, List<Date>> byLocation = new HashMap<Long, List<Date>>();
 
 		holidays.forEach(holiday -> {

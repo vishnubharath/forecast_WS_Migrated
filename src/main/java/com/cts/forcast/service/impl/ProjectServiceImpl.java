@@ -14,7 +14,7 @@ import com.cts.forcast.service.ProjectService;
 @Service("projectService")
 public class ProjectServiceImpl implements ProjectService {
 
-	@Autowired
+	//@Autowired
 	private ProjectDao projectDao;
 	
 	public Collection<Project> getAllFilters() {

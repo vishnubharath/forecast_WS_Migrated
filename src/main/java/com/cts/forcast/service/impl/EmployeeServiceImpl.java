@@ -12,7 +12,7 @@ import com.cts.forcast.service.EmployeeService;
 @Service("employeeService")
 public class EmployeeServiceImpl implements EmployeeService {
 
-	@Autowired
+	//@Autowired
 	private EmployeeDao employeeDao;
 	
 	public Collection<Employee> getEmployeesList() {

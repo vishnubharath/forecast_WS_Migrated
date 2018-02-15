@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +20,8 @@ import com.cts.forcast.service.ReportsService;
 
 @Controller
 @CrossOrigin
-@RestController("/reports")
+@RestController
+@RequestMapping("/reports")
 public class ReportsController {
 
 	@Autowired
@@ -62,5 +64,10 @@ public class ReportsController {
 	@RequestMapping(value = "/reports/saveRowRecord", method = RequestMethod.POST, headers = "Accept=application/json")
 	public void saveRowRecord(@RequestBody List<Report> rep) {
 		reportsService.updateRecords(rep);		
+	}
+	
+	@RequestMapping(value = "/healthcheck", method = RequestMethod.GET)
+	public String getReportsByProjectId() {
+		return HttpStatus.OK.name();
 	}
 }
