@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cts.forcast.dao.pipeline.PipelineDao">
+	<insert id="insertPipelineData" parameterType="String">
+		INSERT INTO pipeline_data(lOB,opportunityName,contact,salesStage,estCloseDate,
+									currentYearRevenue,nextYearRevenue,tcv,probability,practiceInvolved;)
+									 values(#{lOB},#{opportunityName},#{contact},#{salesStage},#{estCloseDate}
+									,#{currentYearRevenue},#{nextYearRevenue},#{tcv},
+									#{probability},#{practiceInvolved})
+	</insert>
+	
+	<insert id="insertOppotunitiesData" parameterType="java.util.Map">
+		INSERT INTO PIPELINE_OPPORTUNITIES(yearMonth,opportunityData)
+									 values(#{yearMonth},#{opportunityData})
+	</insert>
+	
+	<select id="getOpportunityPipeline" parameterType="java.lang.Integer" resultType="java.lang.String">	
+	
+		SELECT 
+			opportunityData 
+		FROM 
+			PIPELINE_OPPORTUNITIES
+		WHERE 
+			yearMonth=#{month}
+				
+	</select>
+		
+</mapper>
+

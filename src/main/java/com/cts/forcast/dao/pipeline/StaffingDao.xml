@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cts.forcast.dao.pipeline.StaffingDao">
+<!-- 
+	<insert id="insertStaffingData" parameterType="String">
+		INSERT INTO staffing_data(oppName, division, noOfResources,totalRevenue,monthsData) values(#{oppName},#{division},#{noOfResources},#{totalRevenue},#{monthsData})
+	</insert>-->
+	
+	<insert id="insertStaffingPipeline" parameterType="java.util.Map">
+		INSERT INTO PIPELINE_OPPORTUNITIES(yearMonth,staffingData)
+									 values(#{month},#{staffingData},#{totalAmount})
+	</insert> 
+	
+	
+	<select id="getStaffingPipeline" parameterType="java.lang.Integer" resultType="java.lang.String">	
+	
+		SELECT 
+			staffingData 
+		FROM 
+			STAFFING_PIPELINE
+		WHERE 
+			yearMonth=#{month}
+				
+	</select>
+
+	<select id="getStaffingRevenue" parameterType="java.lang.Integer" resultType="java.lang.Double">	
+	
+		SELECT 
+			Total_Amount 
+		FROM 
+			STAFFING_PIPELINE
+		WHERE 
+			yearMonth=#{month}
+				
+	</select>	
+</mapper>

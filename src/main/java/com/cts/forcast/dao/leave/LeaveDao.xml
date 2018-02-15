@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cts.forcast.dao.leave.LeaveDao">
+
+		<select id="getLeaveByEmployeeId" parameterType="map" resultMap="leaveResult">
+		select f.empId,
+			f.month,
+			f.year,
+			f.dateFrom,
+			f.dateTo,
+			f.noOfDays,
+			f.updatedOn,
+			f.region,
+			'forecast' as type
+		from forecast_leave f
+		where 
+			f.empId = #{empId} 
+			and f.updatedOn = '${currentMonth}'
+			and f.year ='${year}'
+		UNION
+		select a.empId,
+			a.month,
+			a.year,
+			a.dateFrom,
+			a.dateTo,
+			a.noOfDays,
+			a.updatedOn,
+			a.region,
+			'actual' as type
+		from actual_leave a
+		where 
+			a.empId = #{empId}
+			and a.updatedOn = '${currentMonth}'
+			and a.year ='${year}'
+	
+	</select>
+
+	<resultMap type="com.cts.forcast.domain.leave.LeaveVO" id="leaveResult">
+		<result property="empId" column="empId" />
+			<result property="month" column="month" />
+			<result property="year" column="year" />
+			<result property="datefrom" column="datefrom" />
+			<result property="dateTo" column="dateTo" />
+			<result property="noOfDays" column="noOfDays" />
+			<result property="updatedOn" column="updatedOn" />
+			<result property="region" column="region" />			
+			<result property="type" column="type"/>
+	</resultMap>
+			
+
+	<insert  id="insertForecastLeave" parameterType="map">
+		insert into forecast_leave(empId,month,year,datefrom,dateTo,noOfDays,updatedOn,region) 
+			values
+			<foreach collection="forecastLeaves" item="forecastLeave"
+			index="index" open="(" separator="),(" close=")">
+			#{forecastLeave.empId},
+			#{forecastLeave.month},
+			#{year},
+			#{forecastLeave.datefrom},
+			#{forecastLeave.dateTo},
+			#{forecastLeave.noOfDays},
+			#{updatedOn},
+			#{forecastLeave.region}
+			</foreach>
+	</insert>
+	
+	<insert  id="insertActualLeave" parameterType="map">
+		insert into actual_leave(empId,month,year,datefrom,dateTo,noOfDays,updatedOn,region) 
+				values
+				<foreach collection="actualLeaves" item="actualLeave"
+				index="index" open="(" separator="),(" close=")">
+				#{actualLeave.empId},
+				#{actualLeave.month},
+				#{year},
+				#{actualLeave.datefrom},
+				#{actualLeave.dateTo},
+				#{actualLeave.noOfDays},
+				#{updatedOn},
+				#{actualLeave.region}
+				</foreach>
+	</insert>	
+
+	<select id="getAllEmpLeaves" resultMap="AllEmpleaveResult">
+	
+	select  empId,
+			month,
+			year,
+			dateFrom,
+			dateTo,
+			noOfDays,
+			updatedOn,
+			region,
+			'forecast' as type
+			from forecast_leave
+	UNION 
+	select  empId,
+			month,
+			year,
+			dateFrom,
+			dateTo,
+			noOfDays,
+			updatedOn,
+			region,
+			'actual' as type
+			from actual_leave;
+	
+	</select>
+
+	<resultMap type="com.cts.forcast.domain.leave.LeaveVO" id="AllEmpleaveResult">
+		<result property="empId" column="empId" />
+			<result property="month" column="month" />
+			<result property="year" column="year" />
+			<result property="datefrom" column="datefrom" />
+			<result property="dateTo" column="dateTo" />
+			<result property="noOfDays" column="noOfDays" />
+			<result property="updatedOn" column="updatedOn" />
+			<result property="region" column="region" />			
+			<result property="type" column="type"/>
+	</resultMap>
+
+	<select id="getAllLeaves" resultMap="leaveResult">
+		select f.empId,
+			f.month,
+			f.year,
+			f.dateFrom,
+			f.dateTo,
+			f.noOfDays,
+			f.updatedOn,
+			f.region,
+			'forecast' as type
+		from forecast_leave f
+		UNION
+		select a.empId,
+			a.month,
+			a.year,
+			a.dateFrom,
+			a.dateTo,
+			a.noOfDays,
+			a.updatedOn,
+			a.region,
+			'actual' as type
+		from actual_leave a
+	</select>
+	
+	<delete id="deleteForecastLeave" parameterType="map">
+		delete from forecast_leave where empId in (#{empId}) and updatedOn='${currentMonth}' and year='${year}'
+	</delete>
+	
+	<delete id="deleteActualLeave" parameterType="map">
+		delete from actual_leave where empId in (#{empId}) and updatedOn='${currentMonth}' and year='${year}'
+	</delete>
+
+</mapper>
+
+

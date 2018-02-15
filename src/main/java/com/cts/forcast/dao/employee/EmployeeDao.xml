@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cts.forcast.dao.employee.EmployeeDao">
+
+	<select id="getEmployeesList" resultMap="employeeResults">
+		SELECT 
+			emp_id as employeeId,project_id as esaProjectId, location as location,associate_name as associateName,project_title as esaProjectName,month,year,lob 
+		FROM
+			forecast_reports		
+	</select>	
+	
+	<select id="getEmpNames" resultMap="empnamesResults" resultType="java.lang.String">
+		SELECT 
+			associate_name as associateName
+		FROM
+			forecast_reports	
+	</select>
+	
+	<select id="getLocationNames" resultMap="locationResults" resultType="java.lang.String">
+		SELECT 
+			location as location
+		FROM
+			forecast_reports	
+	</select>
+	
+	<select id="getProjectNames" resultMap="projectNameResults" resultType="java.lang.String">
+		SELECT 
+			project_title as esaProjectName
+		FROM
+			forecast_reports	
+	</select>
+	
+	<resultMap type="java.lang.String" id="projectNameResults">
+		<result column="project_title" property="esaProjectName" />
+	</resultMap>
+	
+	<resultMap type="java.lang.String" id="locationResults">
+		<result column="location" property="location" />
+	</resultMap>
+	
+	<resultMap type="java.lang.String" id="empnamesResults">
+		<result column="associate_name" property="associateName" />
+	</resultMap>
+	
+	<resultMap type="com.cts.forcast.domain.employee.Employee" id="employeeResults">
+		<result column="emp_id" property="employeeId" />
+		<result column="project_id" property="esaProjectId" />
+		<result column="location_id" property="location" />
+		<result column="project_title" property="esaProjectName" />
+		<result column="month" property="month" />
+		<result column="year" property="year" />
+		<result column="lob" property="lob" />
+	</resultMap>
+	
+
+</mapper>
+
+

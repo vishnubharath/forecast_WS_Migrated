@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cts.forcast.dao.report.ReportsDao">
+
+	<select id="get" parameterType="java.util.HashMap" resultMap="reportResults">
+
+		SELECT
+		*
+		FROM
+		forecast_reports
+		WHERE
+
+		<foreach item="value" index="key" collection="map" open=" "
+			separator=" AND " close=" ">
+			${key}=#{value}
+		</foreach>
+
+	</select>
+
+	<select id="getAll" resultMap="reportResults">
+
+		SELECT
+		*
+		FROM
+		forecast_reports
+
+	</select>
+	
+	<select id="getAllLeavesFromHistory" resultType="com.cts.forcast.domain.report.Report">
+		select * from forecast_history
+	</select>
+
+	<select id="getAllLeaves" resultMap="leaveResults">
+	
+		SELECT
+			x.emp_id,project_id,associate_name,
+			location_id,rate,location_type,location,lob,
+			allocation_start_date,allocation_end_date,
+			f.noOfDays as leave_days,
+			f.month as month,
+			f.year as year,
+			'forecast' as type
+		FROM
+			forecast_reports x
+		LEFT OUTER JOIN
+			FORECAST_LEAVE f 
+		ON 
+			x.emp_id = f.empId
+		
+		UNION
+		
+		SELECT
+			x.emp_id,project_id,associate_name,
+			location_id,rate,location_type,location,lob,
+			allocation_start_date,allocation_end_date,
+			a.noOfDays as leave_days,
+			a.month as month,
+			a.year as year,
+			'actual' as type
+		FROM
+			forecast_reports x
+		LEFT OUTER JOIN 
+			ACTUAL_LEAVE a 
+		ON 
+			x.emp_id = a.empId
+		WHERE 
+			x.allocation_start_date >= a.dateFrom  
+			AND 
+			allocation_end_date >= a.dateTo 
+	</select>
+	
+	
+	
+	<insert id="update" parameterType="com.cts.forcast.domain.report.Report">
+	
+		UPDATE 
+			forecast_history 
+		SET 
+			employeeId=#{employeeId},
+			projectId= #{projectId},
+			locationId=#{locationId},
+			location_type=#{location_type},
+			esaProjectName=#{esaProjectName},
+			associateName=#{associateName},
+			location=#{location},
+			lob=#{lob},
+			type=#{type},
+			leave_days=#{leave_days}			
+			month=#{month},
+			year=#{year},
+			totalHours=#{totalHours},
+			errorMessage=#{errorMessage},
+			rate=#{rate},
+			vacation_non_billable_days=#{vacation_non_billable_days},
+			vacation_non_billable_hours=#{vacation_non_billable_hours},
+			hours=#{hours},
+			billable_hours=#{billable_hours},
+			billing=#{billing}	
+		WHERE
+			sNo = #{sNo} 
+				 
+	</insert>
+	
+	<insert id="insert" parameterType="com.cts.forcast.domain.report.Report">
+	
+		INSERT INTO forecast_history 
+			(employeeId,projectId,locationId,location_type,esaProjectName,associateName,location,lob,type,
+			leave_days,totalRate,month,year,totalHours,errorMessage,rate,vacation_non_billable_days,vacation_non_billable_hours,hours,billable_hours,billing)
+		VALUES
+			( #{employeeId},#{projectId},#{locationId},#{location_type},#{esaProjectName},#{associateName},
+			 #{location},#{lob},#{type},#{leave_days},#{totalRate},#{month},#{year},
+			 #{totalHours},#{errorMessage},#{rate},#{vacationNonBillableDays},#{vacationNonBillableHours},#{hours},
+			 #{billableHours},#{billing})
+			 
+	</insert>
+	
+	
+
+	<insert id="saveAllFields" parameterType="java.util.List">
+	
+		INSERT INTO forecast_history 
+			(employeeId,projectId,locationId,location_type,esaProjectName,associateName,location,lob,type,
+		leave_days,totalRate,month,year,totalHours,errorMessage,rate,vacation_non_billable_days,vacation_non_billable_hours,hours,billable_hours,billing)
+				<foreach collection="list" item="item" separator=" UNION ALL ">
+					(SELECT #{item.employeeId},#{item.projectId},#{item.locationId},#{item.location_type},#{item.esaProjectName},#{item.associateName},
+					 #{item.location},#{item.lob},#{item.type},#{item.leave_days},#{item.totalRate},#{item.month},#{item.year},
+					 #{item.totalHours},#{item.errorMessage},#{item.rate},#{item.vacation_non_billable_days},#{item.vacation_non_billable_hours},#{item.hours},
+					 #{item.billable_hours},#{item.billing})
+				</foreach>
+	</insert>
+	
+	
+	<resultMap type="com.cts.forcast.domain.report.Report" id="reportResults">
+		<result column="emp_id" property="employeeId" />
+		<result column="project_id" property="projectId" />
+		<result column="location_id" property="locationId" />
+		<result column="forecast_leave" property="forcastLeave" />
+		<result column="actual_leave" property="actualLeave" />
+		<result column="extra_man_days" property="extraManDays" />
+		<result column="month" property="month" />
+		<result column="year" property="year" />
+		<result column="from_date" property="fromDate" />
+		<result column="to_date" property="toDate" />
+	</resultMap>
+	
+	<resultMap type="com.cts.forcast.domain.report.Report" id="leaveResults">
+		<result column="emp_id" property="employeeId" />
+		<result column="project_id" property="projectId" />
+		<result column="associate_name" property="associateName"/>
+		<result column="location_id" property="locationId" />
+		<result column="rate" property="rate"/>
+		<result column="location_type" property="location_type"/>
+		<result column="location" property="location"/>
+		<result column="lob" property="lob"/>
+		<result column="allocation_start_date" property="allocation_start_date" />
+		<result column="allocation_end_date" property="allocation_end_date" />
+		<result column="leave_days" property="leave_days" />
+		<result column="type" property="type" />
+		<result column="month" property="month" />
+		<result column="year" property="year" />	
+	</resultMap>
+	
+</mapper>
+
+

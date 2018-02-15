@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cts.forcast.dao.holiday.HolidayDao">
+
+
+	<select id="getAll" resultMap="holidayResults">
+		SELECT * FROM holiday
+	</select>
+
+	<select id="getByLocationId" parameterType="java.lang.Long"
+		resultType="java.lang.Integer">
+
+		SELECT
+		*
+		FROM
+		holiday
+		WHERE
+		-- DATEPART(year,date)=2016 and
+		--
+		DATEPART(month,date) = 10 and
+		-- and DATENAME(dw,Holiday_Date) NOT IN
+		('Sunday','Saturday')
+		location_id = #{locationId}
+
+	</select>
+
+	<select id="getAllHolidaysByLocation" resultMap="locationHolidays">
+
+		SELECT
+		location_id, date
+		FROM
+		holiday
+		-- WHERE
+		-- DATENAME(dw,date) NOT IN	('Sunday','Saturday')
+		GROUP BY
+		location_id, date
+
+	</select>
+
+
+
+	<resultMap
+		type="com.cts.forcast.common.DefaultKeyValuePairs$HolidaysByLocationPair"
+		id="locationHolidays">
+		<constructor>
+			<idArg column="location_id" javaType="java.lang.Long" />
+			<arg column="date" javaType="java.util.Date" />
+		</constructor>
+
+	</resultMap>
+
+
+	<resultMap type="com.cts.forcast.domain.holiday.Holiday" id="holidayResults">
+		<result column="date" property="date" />
+		<result column="region" property="region" />
+		<result column="description" property="description" />
+		<result column="location_id" property="location_id" />
+	</resultMap>
+
+</mapper>
+
+
