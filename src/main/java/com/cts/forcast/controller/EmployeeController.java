@@ -12,14 +12,14 @@ import com.cts.forcast.service.EmployeeService;
 
 
 @Controller
-@RestController("/employee")
-
+@RestController
+@RequestMapping("/employee")
 public class EmployeeController {
 
 	@Autowired
 	private EmployeeService employeeService;
 	
-	@RequestMapping(value = "/employee/listOfEmployees", method = RequestMethod.GET, headers = "Accept=application/json")
+	@RequestMapping(value = "/listOfEmployees", method = RequestMethod.GET, headers = "Accept=application/json")
 	public Collection<Employee> getAllEmployees() {
 		return employeeService.getEmployeesList();
 	}
