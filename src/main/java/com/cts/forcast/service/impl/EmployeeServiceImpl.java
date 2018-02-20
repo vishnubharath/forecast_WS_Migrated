@@ -19,13 +19,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	public Collection<Employee> getEmployeesList() {
 		ArrayList<Employee> employees = new ArrayList<Employee>();
-
-		Iterable<EmployeeEntity> employeeEntityies = employeeRepository.findAll();
+		//Testing purpose
+		Iterable<EmployeeEntity> employeeEntityies = employeeRepository.findAllWithLimited();
 		for (EmployeeEntity employeeEntity : employeeEntityies) {
 			Employee emplopyee = new Employee();
+			emplopyee.setLocation(employeeEntity.getLocationType());
+			emplopyee.setEsaProjectName(employeeEntity.getProjectName());
+			emplopyee.setAssociateName(emplopyee.getAssociateName());
 			emplopyee.setAssociateName(employeeEntity.getAssociateName());
 			emplopyee.setEmployeeId(employeeEntity.getEmployeeId());
-			//TODO : Need to do more mapping
 			employees.add(emplopyee);
 		}
 		
