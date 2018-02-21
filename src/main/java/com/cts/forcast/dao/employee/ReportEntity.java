@@ -38,7 +38,7 @@ public class ReportEntity {
 	@Column(name="Alloc_Start_Date")
 	private Date allocStartDate;
 	@Column(name="Project_Billability")
-	private String Project_Billability;
+	private String projectBillability;
 	@Column(name="Forecast_Period_From")
 	private Date forecastPeriodFrom;
 	@Column(name="Forecast_Period_To")
@@ -134,10 +134,10 @@ public class ReportEntity {
 		this.allocStartDate = allocStartDate;
 	}
 	public String getProject_Billability() {
-		return Project_Billability;
+		return projectBillability;
 	}
 	public void setProject_Billability(String project_Billability) {
-		Project_Billability = project_Billability;
+		project_Billability = project_Billability;
 	}
 	public Date getForecastPeriodFrom() {
 		return forecastPeriodFrom;
