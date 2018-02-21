@@ -8,10 +8,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 @Transactional
-public interface EmployeeRepository extends CrudRepository<EmployeeEntity, Long> {
+public interface EmployeeRepository extends CrudRepository<ReportEntity, Long> {
 
-    List<EmployeeEntity> findByAssociateName(String lastName);
+    List<ReportEntity> findByAssociateName(String lastName);
 
-    @Query(value = "SELECT top 10 * FROM BCK_XREF_Resourcedetails",nativeQuery=true)
-    List<EmployeeEntity> findAllWithLimited();
+    @Query(value = "SELECT top 10 * FROM Forecast_Reports",nativeQuery=true)
+    List<ReportEntity> findAllWithLimited();
 }

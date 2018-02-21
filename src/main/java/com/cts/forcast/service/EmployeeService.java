@@ -1,12 +1,14 @@
 package com.cts.forcast.service;
 
 import java.util.Collection;
+import java.util.List;
 
+import com.cts.forcast.dao.employee.ReportEntity;
 import com.cts.forcast.domain.employee.Employee;
 
 public interface EmployeeService {
 	
-	public Collection<Employee> getEmployeesList();
+	public List<ReportEntity> getEmployeesList();
 	
 	public Collection<String> getEmployeeNames();
 	
