@@ -1,7 +1,5 @@
 package com.cts.forcast.dao.employee;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -137,7 +135,7 @@ public class ReportEntity {
 		return projectBillability;
 	}
 	public void setProject_Billability(String project_Billability) {
-		project_Billability = project_Billability;
+		projectBillability = project_Billability;
 	}
 	public Date getForecastPeriodFrom() {
 		return forecastPeriodFrom;
