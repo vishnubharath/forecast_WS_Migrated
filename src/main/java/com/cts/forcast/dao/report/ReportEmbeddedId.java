@@ -1,4 +1,4 @@
-package com.cts.forcast.dao.employee;
+package com.cts.forcast.dao.report;
 
 public class ReportEmbeddedId {
 

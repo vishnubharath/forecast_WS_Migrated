@@ -1,5 +1,6 @@
-package com.cts.forcast.dao.employee;
+package com.cts.forcast.dao.report;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -10,10 +11,10 @@ import org.springframework.data.repository.CrudRepository;
 import com.cts.forcast.dao.report.ReportEntity;
 
 @Transactional
-public interface EmployeeRepository extends CrudRepository<ReportEntity, Long> {
+public interface ReportRepository extends CrudRepository<ReportEntity, Long> {
 
-    List<ReportEntity> findByAssociateName(String lastName);
+	Collection<ReportEntity> findByAssociateName(String lastName);
 
     @Query(value = "SELECT top 10 * FROM Forecast_Reports",nativeQuery=true)
-    List<ReportEntity> findAllWithLimited();
+    Collection<ReportEntity> findAllReportsWithLimited();
 }

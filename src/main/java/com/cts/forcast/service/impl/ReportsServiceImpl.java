@@ -1,25 +1,24 @@
 package com.cts.forcast.service.impl;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cts.forcast.common.PersistentFields;
-import com.cts.forcast.dao.report.ReportsDao;
-import com.cts.forcast.domain.report.Report;
+
+import com.cts.forcast.dao.report.ReportEntity;
+import com.cts.forcast.dao.report.ReportRepository;
 import com.cts.forcast.service.ReportsService;
 
 @Service("reportsService")
 public class ReportsServiceImpl implements ReportsService {
 
-	//@Autowired
-	private ReportsDao reportsDao;
+	@Autowired
+	private ReportRepository reportRepository;
 
 	@SuppressWarnings("serial")
-	public Collection<Report> getByEmployeeId(final Integer id) {
+	public Collection<ReportEntity> getByEmployeeId(final Integer id) {
 
 		return null;
 		/*return reportsDao.get(new HashMap<String, Object>() {
@@ -30,7 +29,7 @@ public class ReportsServiceImpl implements ReportsService {
 	}
 
 	@SuppressWarnings("serial")
-	public Collection<Report> getByProjectId(final Integer id) {
+	public Collection<ReportEntity> getByProjectId(final Integer id) {
 
 		return null;
 		/*return reportsDao.get(new HashMap<String, Object>() {
@@ -40,7 +39,7 @@ public class ReportsServiceImpl implements ReportsService {
 		});*/
 	}
 
-	public Collection<Report> getByEmpProject(final Integer employeeId, final Integer projectId) {
+	public Collection<ReportEntity> getByEmpProject(final Integer employeeId, final Integer projectId) {
 
 		return null;
 		/*Collection<Report> lstReport = reportsDao.get(new HashMap<String, Object>() {
@@ -52,11 +51,11 @@ public class ReportsServiceImpl implements ReportsService {
 		return lstReport;*/
 	}
 
-	public Collection<Report> getAll() {
-		return reportsDao.getAll();
+	public Collection<ReportEntity> getAll() {
+		return reportRepository.findAllReportsWithLimited();
 	}
 
-	public void updateRecords(List<Report> rep) {
+	public void updateRecords(List<ReportEntity> rep) {
 		// List<List<Report>> reports = Lists.partition(rep, batchSize);
 		rep.forEach(report -> {
 			// VBJ reportsDao.update(report);
@@ -65,12 +64,18 @@ public class ReportsServiceImpl implements ReportsService {
 	}
 
 	@Override
-	public void saveRecords(List<Report> rep) {
+	public void saveRecords(List<ReportEntity> rep) {
 
 	}
 
-	public Collection<Report> getAllLeaves() {
+	@Override
+	public Collection<com.cts.forcast.dao.report.ReportEntity> getAllLeaves() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*public Collection<ReportEntity> getAllLeaves() {
 		return reportsDao.getAllLeavesFromHistory();
-	}
+	}*/
 
 }

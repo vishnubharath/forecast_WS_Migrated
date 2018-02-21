@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cts.forcast.dao.employee.ReportEntity;
+import com.cts.forcast.dao.report.ReportEntity;
 import com.cts.forcast.service.EmployeeService;
 
 

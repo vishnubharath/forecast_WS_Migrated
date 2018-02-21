@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.cts.forcast.dao.employee.EmployeeEntity;
 import com.cts.forcast.dao.employee.EmployeeRepository;
-import com.cts.forcast.dao.employee.ReportEntity;
+import com.cts.forcast.dao.report.ReportEntity;
 import com.cts.forcast.domain.employee.Employee;
 import com.cts.forcast.service.EmployeeService;
 
@@ -20,7 +20,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private EmployeeRepository employeeRepository;
 
 	public List<ReportEntity> getEmployeesList() {
-		ArrayList<ReportEntity> employees = new ArrayList<ReportEntity>();
+		/*ArrayList<ReportEntity> employees = new ArrayList<ReportEntity>();*/
 		//Testing purpose
 //		Iterable<ReportEntity> employeeEntityies = employeeRepository.findAllWithLimited();
 //		for (ReportEntity employeeEntity : employeeEntityies) {
@@ -33,7 +33,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 //			employees.add(emplopyee);
 //		}
 		
-		return employeeRepository.findAllWithLimited();
+		return null;
 	}
 
 	public Collection<String> getEmployeeNames() {
