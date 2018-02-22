@@ -4,22 +4,24 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "Forecast_Reports_Costing")
-@IdClass(com.cts.forcast.dao.report.ReportAdjustmentEntityPK.class)
+//@IdClass(com.cts.forcast.dao.report.ReportAdjustmentEntityPK.class)
 public class ReportAdjustmentEntity implements Serializable {
 
-	@Id
-	@Column(name = "Associate_Id")
+	@Id	
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	@Column(name = "Associate_Id")	
 	private Long associateId;
-	@Id
 	@Column(name = "Project_Id")
 	private Long projectId;
 	@Column(name = "Hours")
@@ -42,10 +44,7 @@ public class ReportAdjustmentEntity implements Serializable {
 	private String lastUpdatedUser;
 
 	@ManyToOne
-	@JoinColumns(value= {
-			@JoinColumn(name = "Associate_Id", referencedColumnName = "Associate_Id",insertable=false,updatable=false),
-			@JoinColumn(name = "Project_Id", referencedColumnName = "Project_Id",insertable=false,updatable=false)
-	})
+	@JoinColumn(name = "reportentity_id", nullable = false)
 	private ReportEntity reportentity;
 	
 

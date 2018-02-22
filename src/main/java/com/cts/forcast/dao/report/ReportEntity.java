@@ -9,6 +9,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
@@ -18,13 +20,13 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Forecast_Reports")
-@IdClass(com.cts.forcast.dao.report.ReportEntityPK.class)
+//@IdClass(com.cts.forcast.dao.report.ReportEntityPK.class)
 public class ReportEntity implements Serializable {
 
-	
-	@Column(name = "Report_Id")
-	private Long reportId;
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "Report_Id")
+	private Long reportId;	
 	@Column(name = "Associate_Id")
 	private Long associateId;
 	@Column(name = "Associate_Name")
@@ -37,7 +39,6 @@ public class ReportEntity implements Serializable {
 	private Long customerId;
 	@Column(name = "Customer_Name")
 	private String customerName;
-	@Id
 	@Column(name = "Project_Id")
 	private Long projectId;
 	@Column(name = "Project_Name")
@@ -67,11 +68,7 @@ public class ReportEntity implements Serializable {
 	@Column(name = "Last_Updated_Time")
 	private Date lastUpdatedTime;
 
-	@OneToMany(cascade=CascadeType.ALL,fetch = FetchType.LAZY)
-	@JoinColumns(value= {
-			@JoinColumn(name = "Associate_Id", referencedColumnName = "Associate_Id"),
-			@JoinColumn(name = "Project_Id", referencedColumnName = "Project_Id")
-			})
+	@OneToMany(mappedBy="reportentity",cascade=CascadeType.ALL,fetch = FetchType.LAZY)
 	private List<ReportAdjustmentEntity> reportAdjustmentEntity;
 
 	public Long getReportId() {
