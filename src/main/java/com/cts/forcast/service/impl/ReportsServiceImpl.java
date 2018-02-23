@@ -45,7 +45,21 @@ public class ReportsServiceImpl implements ReportsService {
 			fr.setReportId(rp.getReportId());
 			fr.setProjectId(rp.getProjectId());
 			
-			// TODO: Need to do more mapping
+			fr.setCustomerId(rp.getCustomerId());
+			fr.setCustomerName(rp.getCustomerName());
+			fr.setProjectName(fr.getProjectName());
+			fr.setPortfolio(rp.getPortfolio());
+			fr.setPOC(rp.getPoc());
+			fr.setProjectBillability(rp.getProjectBillability());
+			fr.setAssociateId(rp.getAssociateId());
+			fr.setAssociateName(rp.getAssociateName());
+			//fr.setHrGrade();
+			fr.setLocation(rp.getLocationType());
+			//fr.setCity(rp.get);
+			fr.setBillability(rp.getBillableType());
+			
+			
+			
 			
 			forcastReports.add(fr);
 		}
