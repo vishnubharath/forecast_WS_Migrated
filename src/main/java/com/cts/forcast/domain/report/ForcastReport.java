@@ -19,9 +19,10 @@ public class ForcastReport {
 
 
 	// Place holders;
-	private String hours;
-	private String adjustment;
-	private String rate;
+	private Long hours;
+	private Long adjustment;
+	private Long rate;
+	private String revenue;
 
 
 	public Long getReportId() {
@@ -108,23 +109,29 @@ public class ForcastReport {
 	public void setBillability(String billability) {
 		this.billability = billability;
 	}
-	public String getHours() {
+	public Long getHours() {
 		return hours;
 	}
-	public void setHours(String hours) {
+	public void setHours(Long hours) {
 		this.hours = hours;
 	}
-	public String getAdjustment() {
+	public Long getAdjustment() {
 		return adjustment;
 	}
-	public void setAdjustment(String adjustment) {
+	public void setAdjustment(Long adjustment) {
 		this.adjustment = adjustment;
 	}
-	public String getRate() {
+	public Long getRate() {
 		return rate;
 	}
-	public void setRate(String rate) {
+	public void setRate(Long rate) {
 		this.rate = rate;
+	}
+	public String getRevenue() {
+		return revenue;
+	}
+	public void setRevenue(String revenue) {
+		this.revenue = revenue;
 	}
 
 

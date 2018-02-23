@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cts.forcast.dao.report.ReportAdjustmentEntity;
 import com.cts.forcast.dao.report.ReportEntity;
 import com.cts.forcast.dao.report.ReportRepository;
 import com.cts.forcast.domain.report.ForcastReport;
@@ -47,7 +48,10 @@ public class ReportsServiceImpl implements ReportsService {
 			
 			fr.setCustomerId(rp.getCustomerId());
 			fr.setCustomerName(rp.getCustomerName());
-			fr.setProjectName(fr.getProjectName());
+			fr.setProjectName(rp.getProjectName());
+			
+			System.out.println(fr.getProjectName());
+			
 			fr.setPortfolio(rp.getPortfolio());
 			fr.setPOC(rp.getPoc());
 			fr.setProjectBillability(rp.getProjectBillability());
@@ -59,7 +63,15 @@ public class ReportsServiceImpl implements ReportsService {
 			fr.setBillability(rp.getBillableType());
 			
 			
+			List<ReportAdjustmentEntity> reportAdjustmentEntities = rp.getReportAdjustmentEntity();
+			ReportAdjustmentEntity reportAdjustmentEntity = reportAdjustmentEntities.get(0);
 			
+			System.out.println(reportAdjustmentEntity.getActualMonth());
+			
+			fr.setHours(reportAdjustmentEntity.getHours());
+			fr.setRate(reportAdjustmentEntity.getRate());
+			fr.setAdjustment(reportAdjustmentEntity.getAdjustment());
+			fr.setRevenue(reportAdjustmentEntity.getRevenue());
 			
 			forcastReports.add(fr);
 		}
