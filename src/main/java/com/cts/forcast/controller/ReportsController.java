@@ -1,7 +1,10 @@
 package com.cts.forcast.controller;
 
+import java.awt.PageAttributes.MediaType;
 import java.util.Collection;
 import java.util.List;
+
+import javax.ws.rs.Consumes;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -60,8 +63,9 @@ public class ReportsController {
 	}
 	
 	
-	@RequestMapping(value = "/reports/saveRowRecord", method = RequestMethod.POST, headers = "Accept=application/json")
-	public void saveRowRecord(@RequestBody List<ReportEntity> rep) {
+	@RequestMapping(value = "/saveRowRecord", method = RequestMethod.POST)
+	@Consumes(value=javax.ws.rs.core.MediaType.APPLICATION_JSON)
+	public void saveRowRecord(@RequestBody List<ForcastReport> rep) {
 		reportsService.updateRecords(rep);		
 	}
 	

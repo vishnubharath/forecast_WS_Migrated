@@ -16,7 +16,7 @@ import javax.persistence.JoinColumns;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-@Entity(name="rpe")
+@Entity
 @Table(name = "Forecast_Reports")
 @IdClass(com.cts.forcast.dao.report.ReportEntityPK.class)
 public class ReportEntity implements Serializable {

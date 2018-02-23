@@ -20,7 +20,7 @@ public interface ReportsService {
 		
 	public void saveRecords(List<ReportEntity> rep);
 	
-	public void updateRecords(List<ReportEntity> rep);
+	public void updateRecords(List<ForcastReport> rep);
 	
 	public void updateRecord(ReportEntity rep);
 }

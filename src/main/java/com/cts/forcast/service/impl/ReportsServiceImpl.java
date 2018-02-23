@@ -12,6 +12,7 @@ import com.cts.forcast.dao.report.ReportEntity;
 import com.cts.forcast.dao.report.ReportRepository;
 import com.cts.forcast.domain.report.ForcastReport;
 import com.cts.forcast.service.ReportsService;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 @Service("reportsService")
 public class ReportsServiceImpl implements ReportsService {
@@ -40,7 +41,7 @@ public class ReportsServiceImpl implements ReportsService {
 		
 		List<ForcastReport> forcastReports = new ArrayList<ForcastReport>();
 			
-		Iterable<ReportEntity> reportsEntities = reportRepository.findAll();
+		Iterable<ReportEntity> reportsEntities = reportRepository.findAllReportsWithLimited();
 		for(ReportEntity rp : reportsEntities) {
 			ForcastReport fr = new ForcastReport();
 			fr.setReportId(rp.getReportId());
@@ -79,12 +80,23 @@ public class ReportsServiceImpl implements ReportsService {
 		return forcastReports;
 	}
 
-	public void updateRecords(List<ReportEntity> rep) {
-		// List<List<Report>> reports = Lists.partition(rep, batchSize);
+	public void updateRecords(List<ForcastReport> rep) {
+		
+		List<ReportEntity> entities = new ArrayList<ReportEntity>();		
 		rep.forEach(report -> {
-			// VBJ reportsDao.update(report);
+			
+			System.out.println(report.getAssociateId());			
+			ReportEntity reportEntity = new ReportEntity();
+			reportEntity.setProjectId(report.getProjectId());
+			reportEntity.setAssociateId(report.getAssociateId());
+			
+			
+			reportRepository.saveForecast(report.getProjectName(), report.getReportId());
+			
+			entities.add(reportEntity);
 		});
-
+		
+		//reportRepository.save(entities);
 	}
 
 	@Override
