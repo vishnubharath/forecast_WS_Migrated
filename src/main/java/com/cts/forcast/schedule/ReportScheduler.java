@@ -1,12 +1,9 @@
 package com.cts.forcast.schedule;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,17 +11,13 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.cts.forcast.common.KeyValuePair;
-import com.cts.forcast.dao.report.ReportsDao;
-import com.cts.forcast.domain.report.Report;
 import com.cts.forcast.service.HolidayService;
 import com.cts.forcast.service.Util.CalendarJson;
 import com.cts.forcast.service.Util.Month;
@@ -37,7 +30,7 @@ public class ReportScheduler {
 	private HolidayService holidayService;
 	
 	//@Autowired
-	private ReportsDao reportsDao;
+	//private ReportsDao reportsDao;
 
 	@Resource(name = "locationBillableHours")
 	private Map<String, Integer> locationBillableHours;
@@ -54,7 +47,7 @@ public class ReportScheduler {
 		
 		// Removed Current DAO Layer
 		//Collection<Report> reports = reportsDao.getAllLeaves();
-		Collection<Report> reports = null;
+		/*Collection<Report> reports = null;
 				
 		if (CollectionUtils.isNotEmpty(reports)) {
 			if (CollectionUtils.isNotEmpty(reports)) {
@@ -85,7 +78,7 @@ public class ReportScheduler {
 				});
 			}
 		}
-
+*/
 	}
 
 	private Map<Long, List<Date>> loadHolidays(List<KeyValuePair<Long, Date>> holidays) {

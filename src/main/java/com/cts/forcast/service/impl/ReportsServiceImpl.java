@@ -1,14 +1,15 @@
 package com.cts.forcast.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import com.cts.forcast.dao.report.ReportEntity;
 import com.cts.forcast.dao.report.ReportRepository;
+import com.cts.forcast.domain.report.ForcastReport;
 import com.cts.forcast.service.ReportsService;
 
 @Service("reportsService")
@@ -21,38 +22,35 @@ public class ReportsServiceImpl implements ReportsService {
 	public Collection<ReportEntity> getByEmployeeId(final Integer id) {
 
 		return null;
-		/*return reportsDao.get(new HashMap<String, Object>() {
-			{
-				put(PersistentFields.EMPLOYEE_ID_FIELD, id);
-			}
-		});*/
 	}
 
 	@SuppressWarnings("serial")
 	public Collection<ReportEntity> getByProjectId(final Integer id) {
 
 		return null;
-		/*return reportsDao.get(new HashMap<String, Object>() {
-			{
-				put(PersistentFields.PROJECT_ID_FIELD, id);
-			}
-		});*/
 	}
 
 	public Collection<ReportEntity> getByEmpProject(final Integer employeeId, final Integer projectId) {
 
 		return null;
-		/*Collection<Report> lstReport = reportsDao.get(new HashMap<String, Object>() {
-			{
-				put(PersistentFields.EMPLOYEE_ID_FIELD, employeeId);
-				put(PersistentFields.PROJECT_ID_FIELD, projectId);
-			}
-		});
-		return lstReport;*/
 	}
 
-	public Collection<ReportEntity> getAll() {
-		return reportRepository.findAllReportsWithLimited();
+	public Collection<ForcastReport> getAll() {		
+		
+		List<ForcastReport> forcastReports = new ArrayList<ForcastReport>();
+			
+		Iterable<ReportEntity> reportsEntities = reportRepository.findAll();
+		for(ReportEntity rp : reportsEntities) {
+			ForcastReport fr = new ForcastReport();
+			fr.setReportId(rp.getReportId());
+			fr.setProjectId(rp.getProjectId());
+			
+			// TODO: Need to do more mapping
+			
+			forcastReports.add(fr);
+		}
+		
+		return forcastReports;
 	}
 
 	public void updateRecords(List<ReportEntity> rep) {
@@ -72,6 +70,11 @@ public class ReportsServiceImpl implements ReportsService {
 	public Collection<com.cts.forcast.dao.report.ReportEntity> getAllLeaves() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void updateRecord(ReportEntity rep) {		
+		reportRepository.save(rep);		
 	}
 
 	/*public Collection<ReportEntity> getAllLeaves() {

@@ -1,11 +1,7 @@
 package com.cts.forcast.controller;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cts.forcast.dao.report.ReportEntity;
+import com.cts.forcast.domain.report.ForcastReport;
 import com.cts.forcast.service.ReportsService;
 
 @Controller
@@ -36,7 +33,7 @@ public class ReportsController {
 
 	@RequestMapping(value = "/reports/employee/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
 	public Collection<ReportEntity> getReportsByEmployeeId(@PathVariable Integer id) {
-		return reportsService.getByEmployeeId(id);
+		return reportsService.getByEmployeeId(id); 
 	}
 
 	@RequestMapping(value = "/reports/check/{empId}/{pjtId}", method = RequestMethod.GET, headers = "Accept=application/json")
@@ -44,8 +41,8 @@ public class ReportsController {
 		return reportsService.getByEmpProject(empId, pjtId);
 	}
 
-	@RequestMapping(value = "/reports/all", method = RequestMethod.GET, headers = "Accept=application/json")
-	public Collection<ReportEntity> getFilterCondition() {
+	@RequestMapping(value = "/all", method = RequestMethod.GET, headers = "Accept=application/json")
+	public Collection<ForcastReport> getALLReports() {
 		System.out.println("Enterting /reports/all");
 		return reportsService.getAll();	
 	}
@@ -66,6 +63,11 @@ public class ReportsController {
 	@RequestMapping(value = "/reports/saveRowRecord", method = RequestMethod.POST, headers = "Accept=application/json")
 	public void saveRowRecord(@RequestBody List<ReportEntity> rep) {
 		reportsService.updateRecords(rep);		
+	}
+	
+	@RequestMapping(value = "/reports/saveRecord", method = RequestMethod.POST, headers = "Accept=application/json")
+	public void saveRecord(@RequestBody ReportEntity rep) {
+		reportsService.updateRecord(rep);		
 	}
 	
 	@RequestMapping(value = "/healthcheck", method = RequestMethod.GET)
