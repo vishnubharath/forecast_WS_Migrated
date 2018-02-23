@@ -1,10 +1,12 @@
 package com.cts.forcast.dao.report;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -53,6 +55,9 @@ public class ReportEntity {
 	private String lastUpdatedUser;
 	@Column(name="Last_Updated_Time")
 	private Date lastUpdatedTime;
+	
+	@OneToMany(mappedBy="associateId")
+	private List<ReportAdjustmentEntity> reportAdjustmentEntity;
 	
 	public Long getReportId() {
 		return reportId;
@@ -180,7 +185,12 @@ public class ReportEntity {
 	public void setLastUpdatedTime(Date lastUpdatedTime) {
 		this.lastUpdatedTime = lastUpdatedTime;
 	}
-	
+	public List<ReportAdjustmentEntity> getReportAdjustmentEntity() {
+		return reportAdjustmentEntity;
+	}
+	public void setReportAdjustmentEntity(List<ReportAdjustmentEntity> reportAdjustmentEntity) {
+		this.reportAdjustmentEntity = reportAdjustmentEntity;
+	}
 	
 
 }
