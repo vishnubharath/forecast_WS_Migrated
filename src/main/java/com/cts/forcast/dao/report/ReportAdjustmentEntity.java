@@ -19,6 +19,7 @@ public class ReportAdjustmentEntity implements Serializable {
 
 	@Id	
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "Costing_Id")
 	private Long id;
 	@Column(name = "Associate_Id")	
 	private Long associateId;
@@ -44,7 +45,7 @@ public class ReportAdjustmentEntity implements Serializable {
 	private String lastUpdatedUser;
 
 	@ManyToOne
-	@JoinColumn(name = "reportentity_id", nullable = false)
+	@JoinColumn(name = "Report_Id", nullable = false)
 	private ReportEntity reportentity;
 	
 

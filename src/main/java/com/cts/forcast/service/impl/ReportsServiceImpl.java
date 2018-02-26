@@ -11,6 +11,7 @@ import com.cts.forcast.dao.report.ReportAdjustmentEntity;
 import com.cts.forcast.dao.report.ReportEntity;
 import com.cts.forcast.dao.report.ReportRepository;
 import com.cts.forcast.domain.report.ForcastReport;
+import com.cts.forcast.domain.report.ReportAdjusment;
 import com.cts.forcast.service.ReportsService;
 import com.sun.org.apache.bcel.internal.generic.NEW;
 
@@ -42,39 +43,44 @@ public class ReportsServiceImpl implements ReportsService {
 		List<ForcastReport> forcastReports = new ArrayList<ForcastReport>();
 			
 		Iterable<ReportEntity> reportsEntities = reportRepository.findAllReportsWithLimited();
-		for(ReportEntity rp : reportsEntities) {
-			ForcastReport fr = new ForcastReport();
-			fr.setReportId(rp.getReportId());
-			fr.setProjectId(rp.getProjectId());
+		for(ReportEntity reportEntity : reportsEntities) {
+			ForcastReport forecastReport = new ForcastReport();
+			forecastReport.setReportId(reportEntity.getReportId());
+			forecastReport.setProjectId(reportEntity.getProjectId());
 			
-			fr.setCustomerId(rp.getCustomerId());
-			fr.setCustomerName(rp.getCustomerName());
-			fr.setProjectName(rp.getProjectName());
+			forecastReport.setCustomerId(reportEntity.getCustomerId());
+			forecastReport.setCustomerName(reportEntity.getCustomerName());
+			forecastReport.setProjectName(reportEntity.getProjectName());
 			
-			System.out.println(fr.getProjectName());
+			//System.out.println(fr.getProjectName());
 			
-			fr.setPortfolio(rp.getPortfolio());
-			fr.setPOC(rp.getPoc());
-			fr.setProjectBillability(rp.getProjectBillability());
-			fr.setAssociateId(rp.getAssociateId());
-			fr.setAssociateName(rp.getAssociateName());
+			forecastReport.setPortfolio(reportEntity.getPortfolio());
+			forecastReport.setPOC(reportEntity.getPoc());
+			forecastReport.setProjectBillability(reportEntity.getProjectBillability());
+			forecastReport.setAssociateId(reportEntity.getAssociateId());
+			forecastReport.setAssociateName(reportEntity.getAssociateName());
 			//fr.setHrGrade();
-			fr.setLocation(rp.getLocationType());
+			forecastReport.setLocation(reportEntity.getLocationType());
 			//fr.setCity(rp.get);
-			fr.setBillability(rp.getBillableType());
+			forecastReport.setBillability(reportEntity.getBillableType());
 			
 			
-			List<ReportAdjustmentEntity> reportAdjustmentEntities = rp.getReportAdjustmentEntity();
-			ReportAdjustmentEntity reportAdjustmentEntity = reportAdjustmentEntities.get(0);
-			
-			System.out.println(reportAdjustmentEntity.getActualMonth());
-			
-			fr.setHours(reportAdjustmentEntity.getHours());
-			fr.setRate(reportAdjustmentEntity.getRate());
-			fr.setAdjustment(reportAdjustmentEntity.getAdjustment());
-			fr.setRevenue(reportAdjustmentEntity.getRevenue());
-			
-			forcastReports.add(fr);
+			List<ReportAdjustmentEntity> reportAdjustmentEntities = reportEntity.getReportAdjustmentEntity();
+			List<ReportAdjusment> reportCostingList = new ArrayList<>();
+			for(ReportAdjustmentEntity reportAdjustmentEntity :reportAdjustmentEntities){
+				ReportAdjusment reportAdjustment = new ReportAdjusment();
+				reportAdjustment.setAdjustment(reportAdjustmentEntity.getAdjustment());
+				reportAdjustment.setHours(reportAdjustmentEntity.getHours());
+				reportAdjustment.setRate(reportAdjustmentEntity.getRate());
+				reportAdjustment.setRevenue(reportAdjustmentEntity.getRevenue());
+				reportAdjustment.setForecastedMonth(reportAdjustmentEntity.getForecastedMonth());
+				reportAdjustment.setForecastedYear(reportAdjustmentEntity.getForecastedYear());
+				reportAdjustment.setActualMonth(reportAdjustmentEntity.getActualMonth());
+				reportAdjustment.setActualYear(reportAdjustmentEntity.getActualYear());
+				reportCostingList.add(reportAdjustment);
+			}
+			forecastReport.setReportAdjusments(reportCostingList);
+			forcastReports.add(forecastReport);
 		}
 		
 		return forcastReports;

@@ -1,5 +1,7 @@
 package com.cts.forcast.domain.report;
 
+import java.util.List;
+
 public class ForcastReport {
 
 	private Long reportId;
@@ -17,13 +19,7 @@ public class ForcastReport {
 	private String city;
 	private String billability;
 
-
-	// Place holders;
-	private Long hours;
-	private Long adjustment;
-	private Long rate;
-	private String revenue;
-
+	private List<ReportAdjusment> reportAdjusments;
 
 	public Long getReportId() {
 		return reportId;
@@ -109,29 +105,12 @@ public class ForcastReport {
 	public void setBillability(String billability) {
 		this.billability = billability;
 	}
-	public Long getHours() {
-		return hours;
+
+	public List<ReportAdjusment> getReportAdjusments() {
+		return reportAdjusments;
 	}
-	public void setHours(Long hours) {
-		this.hours = hours;
-	}
-	public Long getAdjustment() {
-		return adjustment;
-	}
-	public void setAdjustment(Long adjustment) {
-		this.adjustment = adjustment;
-	}
-	public Long getRate() {
-		return rate;
-	}
-	public void setRate(Long rate) {
-		this.rate = rate;
-	}
-	public String getRevenue() {
-		return revenue;
-	}
-	public void setRevenue(String revenue) {
-		this.revenue = revenue;
+	public void setReportAdjusments(List<ReportAdjusment> reportAdjusments) {
+		this.reportAdjusments = reportAdjusments;
 	}
 
 

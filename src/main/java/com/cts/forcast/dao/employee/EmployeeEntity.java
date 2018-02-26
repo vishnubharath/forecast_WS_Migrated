@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="BCK_XREF_Resourcedetails")
+
 public class EmployeeEntity {
 	
 	@Id
