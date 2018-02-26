@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.cts.forcast.dao.report.ReportEntity;
+import com.cts.forcast.domain.report.Adjustment;
 import com.cts.forcast.domain.report.ForcastReport;
 
 public interface ReportsService {
@@ -20,7 +21,7 @@ public interface ReportsService {
 		
 	public void saveRecords(List<ReportEntity> rep);
 	
-	public void updateRecords(List<ForcastReport> rep);
+	public void updateRecords(List<Adjustment> rep);
 	
 	public void updateRecord(ReportEntity rep);
 }

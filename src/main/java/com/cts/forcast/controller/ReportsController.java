@@ -1,6 +1,5 @@
 package com.cts.forcast.controller;
 
-import java.awt.PageAttributes.MediaType;
 import java.util.Collection;
 import java.util.List;
 
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cts.forcast.dao.report.ReportEntity;
+import com.cts.forcast.domain.report.Adjustment;
 import com.cts.forcast.domain.report.ForcastReport;
 import com.cts.forcast.service.ReportsService;
 
@@ -65,7 +65,12 @@ public class ReportsController {
 	
 	@RequestMapping(value = "/saveRowRecord", method = RequestMethod.POST)
 	@Consumes(value=javax.ws.rs.core.MediaType.APPLICATION_JSON)
-	public void saveRowRecord(@RequestBody List<ForcastReport> rep) {
+	public void saveRowRecord(@RequestBody List<Adjustment> rep) {
+		
+		for(Adjustment adjustment : rep) {
+			System.out.println(adjustment.getId());
+			System.out.println(adjustment.getAdjusment());
+		}		
 		reportsService.updateRecords(rep);		
 	}
 	

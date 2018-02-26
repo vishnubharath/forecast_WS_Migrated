@@ -2,6 +2,7 @@ package com.cts.forcast.domain.report;
 
 public class ReportAdjusment {
 
+	private Long id;
 	private Long hours;
 	private Long adjustment;
 	private Long rate;
@@ -59,6 +60,12 @@ public class ReportAdjusment {
 	}
 	public void setActualYear(Long actualYear) {
 		this.actualYear = actualYear;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 }

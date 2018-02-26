@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cts.forcast.dao.report.ReportAdjustmentEntity;
+import com.cts.forcast.dao.report.ReportAdjustmentRepository;
 import com.cts.forcast.dao.report.ReportEntity;
 import com.cts.forcast.dao.report.ReportRepository;
+import com.cts.forcast.domain.report.Adjustment;
 import com.cts.forcast.domain.report.ForcastReport;
 import com.cts.forcast.domain.report.ReportAdjusment;
 import com.cts.forcast.service.ReportsService;
@@ -20,6 +22,9 @@ public class ReportsServiceImpl implements ReportsService {
 
 	@Autowired
 	private ReportRepository reportRepository;
+	
+	@Autowired
+	private ReportAdjustmentRepository adjustmentRepository;
 
 	@SuppressWarnings("serial")
 	public Collection<ReportEntity> getByEmployeeId(final Integer id) {
@@ -69,6 +74,7 @@ public class ReportsServiceImpl implements ReportsService {
 			List<ReportAdjusment> reportCostingList = new ArrayList<>();
 			for(ReportAdjustmentEntity reportAdjustmentEntity :reportAdjustmentEntities){
 				ReportAdjusment reportAdjustment = new ReportAdjusment();
+				reportAdjustment.setId(reportAdjustmentEntity.getId());
 				reportAdjustment.setAdjustment(reportAdjustmentEntity.getAdjustment());
 				reportAdjustment.setHours(reportAdjustmentEntity.getHours());
 				reportAdjustment.setRate(reportAdjustmentEntity.getRate());
@@ -86,23 +92,18 @@ public class ReportsServiceImpl implements ReportsService {
 		return forcastReports;
 	}
 
-	public void updateRecords(List<ForcastReport> rep) {
+	public void updateRecords(List<Adjustment> adjustments) {
 		
-		List<ReportEntity> entities = new ArrayList<ReportEntity>();		
-		rep.forEach(report -> {
-			
-			System.out.println(report.getAssociateId());			
-			ReportEntity reportEntity = new ReportEntity();
-			reportEntity.setProjectId(report.getProjectId());
-			reportEntity.setAssociateId(report.getAssociateId());
-			
-			
-			reportRepository.saveForecast(report.getProjectName(), report.getReportId());
-			
-			entities.add(reportEntity);
-		});
+		for(Adjustment adjustment : adjustments) {
+			if(adjustment.getId() != null) {
+				ReportAdjustmentEntity reportAdjustmentEntity = adjustmentRepository.findOne(adjustment.getId());
+				System.out.println(reportAdjustmentEntity.getAdjustment());
+				reportAdjustmentEntity.setAdjustment(adjustment.getAdjusment());
+				
+				adjustmentRepository.save(reportAdjustmentEntity);
+			}
+		}
 		
-		//reportRepository.save(entities);
 	}
 
 	@Override
