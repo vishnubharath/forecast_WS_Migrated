@@ -14,11 +14,17 @@ public class ForcastReport {
 	private String projectBillability;
 	private Long associateId;
 	private String associateName;
-	private String hrGrade;
 	private String location;
 	private String city;
 	private String billability;
+	private String associateGrade;
 
+	public String getAssociateGrade() {
+		return associateGrade;
+	}
+	public void setAssociateGrade(String associateGrade) {
+		this.associateGrade = associateGrade;
+	}
 	private List<ReportAdjusment> reportAdjusments;
 
 	public Long getReportId() {
@@ -80,12 +86,6 @@ public class ForcastReport {
 	}
 	public void setAssociateName(String associateName) {
 		this.associateName = associateName;
-	}
-	public String getHrGrade() {
-		return hrGrade;
-	}
-	public void setHrGrade(String hrGrade) {
-		this.hrGrade = hrGrade;
 	}
 	public String getLocation() {
 		return location;

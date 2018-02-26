@@ -59,9 +59,9 @@ public class ReportsServiceImpl implements ReportsService {
 			forecastReport.setProjectBillability(reportEntity.getProjectBillability());
 			forecastReport.setAssociateId(reportEntity.getAssociateId());
 			forecastReport.setAssociateName(reportEntity.getAssociateName());
-			//fr.setHrGrade();
+			forecastReport.setAssociateGrade(reportEntity.getAssociateGrade());
 			forecastReport.setLocation(reportEntity.getLocationType());
-			//fr.setCity(rp.get);
+			forecastReport.setCity(reportEntity.getAssociateCity());
 			forecastReport.setBillability(reportEntity.getBillableType());
 			
 			
