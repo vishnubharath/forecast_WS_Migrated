@@ -29,8 +29,8 @@ public class ReportsController {
 	@Autowired
 	private ReportsService reportsService;
 
-	@RequestMapping(value = "/reports/project/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
-	public Collection<ReportEntity> getReportsByProjectId(@PathVariable Integer id) {
+	@RequestMapping(value = "/project/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
+	public Collection<ForcastReport> getReportsByProjectId(@PathVariable Long id) {
 		return reportsService.getByProjectId(id);
 	}
 

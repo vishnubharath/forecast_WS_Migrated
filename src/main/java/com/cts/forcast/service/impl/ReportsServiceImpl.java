@@ -31,11 +31,8 @@ public class ReportsServiceImpl implements ReportsService {
 
 		return null;
 	}
-
-	@SuppressWarnings("serial")
-	public Collection<ReportEntity> getByProjectId(final Integer id) {
-
-		return null;
+	public Collection<ForcastReport> getByProjectId(Long id) {
+		return mapForecastReport(reportRepository.findByProjectId(id));
 	}
 
 	public Collection<ReportEntity> getByEmpProject(final Integer employeeId, final Integer projectId) {
@@ -44,10 +41,44 @@ public class ReportsServiceImpl implements ReportsService {
 	}
 
 	public Collection<ForcastReport> getAll() {		
+		List<ForcastReport> forcastReports  = mapForecastReport(reportRepository.findAllReportsWithLimited());
+		return forcastReports;
+	}
+
+	public void updateRecords(List<Adjustment> adjustments) {
 		
+		for(Adjustment adjustment : adjustments) {
+			if(adjustment.getId() != null) {
+				ReportAdjustmentEntity reportAdjustmentEntity = adjustmentRepository.findOne(adjustment.getId());
+				System.out.println(reportAdjustmentEntity.getAdjustment());
+				reportAdjustmentEntity.setAdjustment(adjustment.getAdjusment());
+				reportAdjustmentEntity.setHours(adjustment.getHours());
+				reportAdjustmentEntity.setRate(adjustment.getRate());
+				
+				adjustmentRepository.save(reportAdjustmentEntity);
+			}
+		}
+		
+	}
+
+	@Override
+	public void saveRecords(List<ReportEntity> rep) {
+
+	}
+
+	@Override
+	public Collection<com.cts.forcast.dao.report.ReportEntity> getAllLeaves() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateRecord(ReportEntity rep) {		
+		reportRepository.save(rep);		
+	}
+	
+	private List<ForcastReport> mapForecastReport (Iterable<ReportEntity> reportsEntities){
 		List<ForcastReport> forcastReports = new ArrayList<ForcastReport>();
-			
-		Iterable<ReportEntity> reportsEntities = reportRepository.findAllReportsWithLimited();
 		for(ReportEntity reportEntity : reportsEntities) {
 			ForcastReport forecastReport = new ForcastReport();
 			forecastReport.setReportId(reportEntity.getReportId());
@@ -88,40 +119,7 @@ public class ReportsServiceImpl implements ReportsService {
 			forecastReport.setReportAdjusments(reportCostingList);
 			forcastReports.add(forecastReport);
 		}
-		
 		return forcastReports;
-	}
-
-	public void updateRecords(List<Adjustment> adjustments) {
-		
-		for(Adjustment adjustment : adjustments) {
-			if(adjustment.getId() != null) {
-				ReportAdjustmentEntity reportAdjustmentEntity = adjustmentRepository.findOne(adjustment.getId());
-				System.out.println(reportAdjustmentEntity.getAdjustment());
-				reportAdjustmentEntity.setAdjustment(adjustment.getAdjusment());
-				reportAdjustmentEntity.setHours(adjustment.getHours());
-				reportAdjustmentEntity.setRate(adjustment.getRate());
-				
-				adjustmentRepository.save(reportAdjustmentEntity);
-			}
-		}
-		
-	}
-
-	@Override
-	public void saveRecords(List<ReportEntity> rep) {
-
-	}
-
-	@Override
-	public Collection<com.cts.forcast.dao.report.ReportEntity> getAllLeaves() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void updateRecord(ReportEntity rep) {		
-		reportRepository.save(rep);		
 	}
 
 	/*public Collection<ReportEntity> getAllLeaves() {

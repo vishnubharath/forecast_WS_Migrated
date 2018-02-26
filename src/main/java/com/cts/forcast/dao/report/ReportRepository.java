@@ -18,4 +18,6 @@ public interface ReportRepository extends CrudRepository<ReportEntity, Long> {
     @Modifying
     @Query("update ReportEntity u set u.projectName = ?1 where u.reportId = ?2")
     int saveForecast(String projectName, Long reportId);
+    
+    Collection<ReportEntity> findByProjectId(Long id);
 }

@@ -11,7 +11,7 @@ public interface ReportsService {
 
 	public Collection<ReportEntity> getByEmployeeId(Integer projectId);
 
-	public Collection<ReportEntity> getByProjectId(Integer employeeId);
+	public Collection<ForcastReport> getByProjectId(Long projectId);
 
 	public Collection<ReportEntity> getByEmpProject(Integer employeeId, Integer projectId);
 
