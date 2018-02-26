@@ -99,6 +99,8 @@ public class ReportsServiceImpl implements ReportsService {
 				ReportAdjustmentEntity reportAdjustmentEntity = adjustmentRepository.findOne(adjustment.getId());
 				System.out.println(reportAdjustmentEntity.getAdjustment());
 				reportAdjustmentEntity.setAdjustment(adjustment.getAdjusment());
+				reportAdjustmentEntity.setHours(adjustment.getHours());
+				reportAdjustmentEntity.setRate(adjustment.getRate());
 				
 				adjustmentRepository.save(reportAdjustmentEntity);
 			}

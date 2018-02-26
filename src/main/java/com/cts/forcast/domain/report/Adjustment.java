@@ -4,6 +4,24 @@ public class Adjustment {
 
 	private Long id;
 	private Long adjusment;
+	private Long hours;
+	private Long rate;
+
+	public Long getHours() {
+		return hours;
+	}
+
+	public void setHours(Long hours) {
+		this.hours = hours;
+	}
+
+	public Long getRate() {
+		return rate;
+	}
+
+	public void setRate(Long rate) {
+		this.rate = rate;
+	}
 
 	public Long getId() {
 		return id;

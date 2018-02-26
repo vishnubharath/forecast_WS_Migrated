@@ -70,6 +70,8 @@ public class ReportsController {
 		for(Adjustment adjustment : rep) {
 			System.out.println(adjustment.getId());
 			System.out.println(adjustment.getAdjusment());
+			System.out.println(adjustment.getHours());
+			System.out.println(adjustment.getRate());
 		}		
 		reportsService.updateRecords(rep);		
 	}
