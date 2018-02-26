@@ -107,7 +107,7 @@ public class ReportsServiceImpl implements ReportsService {
 				ReportAdjusment reportAdjustment = new ReportAdjusment();
 				reportAdjustment.setId(reportAdjustmentEntity.getId());
 				reportAdjustment.setAdjustment(reportAdjustmentEntity.getAdjustment());
-				reportAdjustment.setHours(reportAdjustmentEntity.getHours());
+				reportAdjustment.setHours(reportAdjustmentEntity.getHours() == null ? 0 : reportAdjustmentEntity.getHours());
 				reportAdjustment.setRate(reportAdjustmentEntity.getRate());
 				reportAdjustment.setRevenue(reportAdjustmentEntity.getRevenue());
 				reportAdjustment.setForecastedMonth(reportAdjustmentEntity.getForecastedMonth());
