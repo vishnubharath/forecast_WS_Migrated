@@ -11,17 +11,17 @@ public interface ReportsService {
 
 	public Collection<ReportEntity> getByEmployeeId(Integer projectId);
 
-	public Collection<ForcastReport> getByProjectId(Long projectId);
+	public Collection<ForcastReport> getByProjectIds(List<Long> projectIds);
 
 	public Collection<ReportEntity> getByEmpProject(Integer employeeId, Integer projectId);
 
 	public Collection<ForcastReport> getAll();
 
 	public Collection<ReportEntity> getAllLeaves();
-		
+
 	public void saveRecords(List<ReportEntity> rep);
-	
+
 	public void updateRecords(List<Adjustment> rep);
-	
+
 	public void updateRecord(ReportEntity rep);
 }

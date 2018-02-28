@@ -30,8 +30,8 @@ public class ReportsServiceImpl implements ReportsService {
 		return null;
 	}
 
-	public Collection<ForcastReport> getByProjectId(Long id) {
-		return mapForecastReport(reportRepository.findByProjectId(id));
+	public Collection<ForcastReport> getByProjectIds(List<Long> projectIds) {
+		return mapForecastReport(reportRepository.findByProjectIdIn(projectIds));
 	}
 
 	public Collection<ReportEntity> getByEmpProject(final Integer employeeId, final Integer projectId) {

@@ -29,14 +29,14 @@ public class ReportsController {
 	@Autowired
 	private ReportsService reportsService;
 
-	@RequestMapping(value = "/project/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
-	public Collection<ForcastReport> getReportsByProjectId(@PathVariable Long id) {
-		return reportsService.getByProjectId(id);
+	@RequestMapping(value = "/project/{projectIds}", method = RequestMethod.GET, headers = "Accept=application/json")
+	public Collection<ForcastReport> getReportsByProjectIds(@PathVariable List<Long> projectIds) {
+		return reportsService.getByProjectIds(projectIds);
 	}
 
 	@RequestMapping(value = "/reports/employee/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
 	public Collection<ReportEntity> getReportsByEmployeeId(@PathVariable Integer id) {
-		return reportsService.getByEmployeeId(id); 
+		return reportsService.getByEmployeeId(id);
 	}
 
 	@RequestMapping(value = "/reports/check/{empId}/{pjtId}", method = RequestMethod.GET, headers = "Accept=application/json")
@@ -47,7 +47,7 @@ public class ReportsController {
 	@RequestMapping(value = "/all", method = RequestMethod.GET, headers = "Accept=application/json")
 	public Collection<ForcastReport> getALLReports() {
 		System.out.println("Enterting /reports/all");
-		return reportsService.getAll();	
+		return reportsService.getAll();
 	}
 
 	@RequestMapping(value = "/reports/hours/{locationType}/{locationId}/{year}/{month}", method = RequestMethod.GET, headers = "Accept=application/json")
@@ -61,26 +61,25 @@ public class ReportsController {
 	public Collection<ReportEntity> getAllLeaves() {
 		return reportsService.getAllLeaves();
 	}
-	
-	
+
 	@RequestMapping(value = "/saveRowRecord", method = RequestMethod.POST)
-	@Consumes(value=javax.ws.rs.core.MediaType.APPLICATION_JSON)
+	@Consumes(value = javax.ws.rs.core.MediaType.APPLICATION_JSON)
 	public void saveRowRecord(@RequestBody List<Adjustment> rep) {
-		
-		for(Adjustment adjustment : rep) {
+
+		for (Adjustment adjustment : rep) {
 			System.out.println(adjustment.getId());
 			System.out.println(adjustment.getAdjusment());
 			System.out.println(adjustment.getHours());
 			System.out.println(adjustment.getRate());
-		}		
-		reportsService.updateRecords(rep);		
+		}
+		reportsService.updateRecords(rep);
 	}
-	
+
 	@RequestMapping(value = "/reports/saveRecord", method = RequestMethod.POST, headers = "Accept=application/json")
 	public void saveRecord(@RequestBody ReportEntity rep) {
-		reportsService.updateRecord(rep);		
+		reportsService.updateRecord(rep);
 	}
-	
+
 	@RequestMapping(value = "/healthcheck", method = RequestMethod.GET)
 	public String getReportsByProjectId() {
 		return HttpStatus.OK.name();
