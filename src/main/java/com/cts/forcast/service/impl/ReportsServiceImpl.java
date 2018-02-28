@@ -15,22 +15,21 @@ import com.cts.forcast.domain.report.Adjustment;
 import com.cts.forcast.domain.report.ForcastReport;
 import com.cts.forcast.domain.report.ReportAdjusment;
 import com.cts.forcast.service.ReportsService;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
 @Service("reportsService")
 public class ReportsServiceImpl implements ReportsService {
 
 	@Autowired
 	private ReportRepository reportRepository;
-	
+
 	@Autowired
 	private ReportAdjustmentRepository adjustmentRepository;
 
-	@SuppressWarnings("serial")
 	public Collection<ReportEntity> getByEmployeeId(final Integer id) {
 
 		return null;
 	}
+
 	public Collection<ForcastReport> getByProjectId(Long id) {
 		return mapForecastReport(reportRepository.findByProjectId(id));
 	}
@@ -40,25 +39,25 @@ public class ReportsServiceImpl implements ReportsService {
 		return null;
 	}
 
-	public Collection<ForcastReport> getAll() {		
-		List<ForcastReport> forcastReports  = mapForecastReport(reportRepository.findAllReportsWithLimited());
+	public Collection<ForcastReport> getAll() {
+		List<ForcastReport> forcastReports = mapForecastReport(reportRepository.findAllReportsWithLimited());
 		return forcastReports;
 	}
 
 	public void updateRecords(List<Adjustment> adjustments) {
-		
-		for(Adjustment adjustment : adjustments) {
-			if(adjustment.getId() != null) {
+
+		for (Adjustment adjustment : adjustments) {
+			if (adjustment.getId() != null) {
 				ReportAdjustmentEntity reportAdjustmentEntity = adjustmentRepository.findOne(adjustment.getId());
 				System.out.println(reportAdjustmentEntity.getAdjustment());
 				reportAdjustmentEntity.setAdjustment(adjustment.getAdjusment());
 				reportAdjustmentEntity.setHours(adjustment.getHours());
 				reportAdjustmentEntity.setRate(adjustment.getRate());
-				
+
 				adjustmentRepository.save(reportAdjustmentEntity);
 			}
 		}
-		
+
 	}
 
 	@Override
@@ -73,23 +72,19 @@ public class ReportsServiceImpl implements ReportsService {
 	}
 
 	@Override
-	public void updateRecord(ReportEntity rep) {		
-		reportRepository.save(rep);		
+	public void updateRecord(ReportEntity rep) {
+		reportRepository.save(rep);
 	}
-	
-	private List<ForcastReport> mapForecastReport (Iterable<ReportEntity> reportsEntities){
-		List<ForcastReport> forcastReports = new ArrayList<ForcastReport>();
-		for(ReportEntity reportEntity : reportsEntities) {
+
+	private List<ForcastReport> mapForecastReport(Iterable<ReportEntity> reportsEntities) {
+		List<ForcastReport> forcastReports = new ArrayList<>();
+		for (ReportEntity reportEntity : reportsEntities) {
 			ForcastReport forecastReport = new ForcastReport();
 			forecastReport.setReportId(reportEntity.getReportId());
 			forecastReport.setProjectId(reportEntity.getProjectId());
-			
 			forecastReport.setCustomerId(reportEntity.getCustomerId());
 			forecastReport.setCustomerName(reportEntity.getCustomerName());
 			forecastReport.setProjectName(reportEntity.getProjectName());
-			
-			//System.out.println(fr.getProjectName());
-			
 			forecastReport.setPortfolio(reportEntity.getPortfolio());
 			forecastReport.setPOC(reportEntity.getPoc());
 			forecastReport.setProjectBillability(reportEntity.getProjectBillability());
@@ -99,15 +94,15 @@ public class ReportsServiceImpl implements ReportsService {
 			forecastReport.setLocation(reportEntity.getLocationType());
 			forecastReport.setCity(reportEntity.getAssociateCity());
 			forecastReport.setBillability(reportEntity.getBillableType());
-			
-			
+
 			List<ReportAdjustmentEntity> reportAdjustmentEntities = reportEntity.getReportAdjustmentEntity();
 			List<ReportAdjusment> reportCostingList = new ArrayList<>();
-			for(ReportAdjustmentEntity reportAdjustmentEntity :reportAdjustmentEntities){
+			for (ReportAdjustmentEntity reportAdjustmentEntity : reportAdjustmentEntities) {
 				ReportAdjusment reportAdjustment = new ReportAdjusment();
 				reportAdjustment.setId(reportAdjustmentEntity.getId());
 				reportAdjustment.setAdjustment(reportAdjustmentEntity.getAdjustment());
-				reportAdjustment.setHours(reportAdjustmentEntity.getHours() == null ? 0 : reportAdjustmentEntity.getHours());
+				reportAdjustment
+						.setHours(reportAdjustmentEntity.getHours() == null ? 0 : reportAdjustmentEntity.getHours());
 				reportAdjustment.setRate(reportAdjustmentEntity.getRate());
 				reportAdjustment.setRevenue(reportAdjustmentEntity.getRevenue());
 				reportAdjustment.setForecastedMonth(reportAdjustmentEntity.getForecastedMonth());
@@ -121,9 +116,5 @@ public class ReportsServiceImpl implements ReportsService {
 		}
 		return forcastReports;
 	}
-
-	/*public Collection<ReportEntity> getAllLeaves() {
-		return reportsDao.getAllLeavesFromHistory();
-	}*/
 
 }

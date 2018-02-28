@@ -3,7 +3,6 @@ package com.cts.forcast.dao.report;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,21 +11,18 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "Forecast_Reports")
-//@IdClass(com.cts.forcast.dao.report.ReportEntityPK.class)
+// @IdClass(com.cts.forcast.dao.report.ReportEntityPK.class)
 public class ReportEntity implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "Report_Id")
-	private Long reportId;	
+	private Long reportId;
 	@Column(name = "Associate_Id")
 	private Long associateId;
 	@Column(name = "Associate_Name")
@@ -68,7 +64,7 @@ public class ReportEntity implements Serializable {
 	@Column(name = "Last_Updated_Time")
 	private Date lastUpdatedTime;
 
-	@OneToMany(mappedBy="reportentity",cascade=CascadeType.ALL,fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "reportentity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<ReportAdjustmentEntity> reportAdjustmentEntity;
 
 	public Long getReportId() {
