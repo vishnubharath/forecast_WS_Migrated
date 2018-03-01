@@ -20,5 +20,5 @@ public interface ReportRepository extends CrudRepository<ReportEntity, Long> {
 	@Query("update ReportEntity u set u.projectName = ?1 where u.reportId = ?2")
 	int saveForecast(String projectName, Long reportId);
 
-	Collection<ReportEntity> findByProjectIdIn(List<Long> id);
+	Collection<ReportEntity> findByReportEmbeddedIdProjectIdIn(List<Long> id);
 }

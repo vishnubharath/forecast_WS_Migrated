@@ -7,24 +7,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "Forecast_Reports_Costing")
-//@IdClass(com.cts.forcast.dao.report.ReportAdjustmentEntityPK.class)
+// @IdClass(com.cts.forcast.dao.report.ReportAdjustmentEntityPK.class)
 public class ReportAdjustmentEntity implements Serializable {
 
-	@Id	
+	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "Costing_Id")
 	private Long id;
-	@Column(name = "Associate_Id")	
-	private Long associateId;
-	@Column(name = "Project_Id")
-	private Long projectId;
 	@Column(name = "Hours")
 	private Long hours;
 	@Column(name = "Adjustment")
@@ -44,26 +40,14 @@ public class ReportAdjustmentEntity implements Serializable {
 	@Column(name = "Last_Updated_User")
 	private String lastUpdatedUser;
 
+	@Column(name = "Report_Id")
+	private Long reportId;
+
 	@ManyToOne
-	@JoinColumn(name = "Report_Id", nullable = false)
+	@JoinColumns({ @JoinColumn(name = "Associate_Id", referencedColumnName = "Associate_Id"),
+			@JoinColumn(name = "Project_Id", referencedColumnName = "Project_Id"),
+			@JoinColumn(name = "Location_Type", referencedColumnName = "Location_Type") })
 	private ReportEntity reportentity;
-	
-
-	public Long getAssociateId() {
-		return associateId;
-	}
-
-	public void setAssociateId(Long associateId) {
-		this.associateId = associateId;
-	}
-
-	public Long getProjectId() {
-		return projectId;
-	}
-
-	public void setProjectId(Long projectId) {
-		this.projectId = projectId;
-	}
 
 	public Long getHours() {
 		return hours;
@@ -128,8 +112,6 @@ public class ReportAdjustmentEntity implements Serializable {
 	public void setActualYear(Long actualYear) {
 		this.actualYear = actualYear;
 	}
-
-
 
 	public String getLastUpdatedUser() {
 		return lastUpdatedUser;

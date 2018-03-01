@@ -6,11 +6,9 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -19,24 +17,22 @@ import javax.persistence.Table;
 // @IdClass(com.cts.forcast.dao.report.ReportEntityPK.class)
 public class ReportEntity implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "Report_Id")
 	private Long reportId;
-	@Column(name = "Associate_Id")
-	private Long associateId;
+
+	@EmbeddedId
+	private ReportEmbeddedId reportEmbeddedId;
+
 	@Column(name = "Associate_Name")
 	private String associateName;
 	@Column(name = "Associate_City")
 	private String associateCity;
-	@Column(name = "Location_Type")
-	private String locationType;
+
 	@Column(name = "Customer_Id")
 	private Long customerId;
 	@Column(name = "Customer_Name")
 	private String customerName;
-	@Column(name = "Project_Id")
-	private Long projectId;
+
 	@Column(name = "Project_Name")
 	private String projectName;
 	@Column(name = "Portfolio")
@@ -75,14 +71,6 @@ public class ReportEntity implements Serializable {
 		this.reportId = reportId;
 	}
 
-	public Long getAssociateId() {
-		return associateId;
-	}
-
-	public void setAssociateId(Long associateId) {
-		this.associateId = associateId;
-	}
-
 	public String getAssociateName() {
 		return associateName;
 	}
@@ -99,14 +87,6 @@ public class ReportEntity implements Serializable {
 		this.associateCity = associateCity;
 	}
 
-	public String getLocationType() {
-		return locationType;
-	}
-
-	public void setLocationType(String locationType) {
-		this.locationType = locationType;
-	}
-
 	public Long getCustomerId() {
 		return customerId;
 	}
@@ -121,14 +101,6 @@ public class ReportEntity implements Serializable {
 
 	public void setCustomerName(String customerName) {
 		this.customerName = customerName;
-	}
-
-	public Long getProjectId() {
-		return projectId;
-	}
-
-	public void setProjectId(Long projectId) {
-		this.projectId = projectId;
 	}
 
 	public String getProjectName() {
@@ -241,6 +213,14 @@ public class ReportEntity implements Serializable {
 
 	public void setReportAdjustmentEntity(List<ReportAdjustmentEntity> reportAdjustmentEntity) {
 		this.reportAdjustmentEntity = reportAdjustmentEntity;
+	}
+
+	public ReportEmbeddedId getReportEmbeddedId() {
+		return reportEmbeddedId;
+	}
+
+	public void setReportEmbeddedId(ReportEmbeddedId reportEmbeddedId) {
+		this.reportEmbeddedId = reportEmbeddedId;
 	}
 
 }

@@ -31,7 +31,7 @@ public class ReportsServiceImpl implements ReportsService {
 	}
 
 	public Collection<ForcastReport> getByProjectIds(List<Long> projectIds) {
-		return mapForecastReport(reportRepository.findByProjectIdIn(projectIds));
+		return mapForecastReport(reportRepository.findByReportEmbeddedIdProjectIdIn(projectIds));
 	}
 
 	public Collection<ReportEntity> getByEmpProject(final Integer employeeId, final Integer projectId) {
@@ -81,17 +81,17 @@ public class ReportsServiceImpl implements ReportsService {
 		for (ReportEntity reportEntity : reportsEntities) {
 			ForcastReport forecastReport = new ForcastReport();
 			forecastReport.setReportId(reportEntity.getReportId());
-			forecastReport.setProjectId(reportEntity.getProjectId());
+			forecastReport.setProjectId(reportEntity.getReportEmbeddedId().getProjectId());
 			forecastReport.setCustomerId(reportEntity.getCustomerId());
 			forecastReport.setCustomerName(reportEntity.getCustomerName());
 			forecastReport.setProjectName(reportEntity.getProjectName());
 			forecastReport.setPortfolio(reportEntity.getPortfolio());
 			forecastReport.setPOC(reportEntity.getPoc());
 			forecastReport.setProjectBillability(reportEntity.getProjectBillability());
-			forecastReport.setAssociateId(reportEntity.getAssociateId());
+			forecastReport.setAssociateId(reportEntity.getReportEmbeddedId().getAssociateId());
 			forecastReport.setAssociateName(reportEntity.getAssociateName());
 			forecastReport.setAssociateGrade(reportEntity.getAssociateGrade());
-			forecastReport.setLocation(reportEntity.getLocationType());
+			forecastReport.setLocation(reportEntity.getReportEmbeddedId().getLocationType());
 			forecastReport.setCity(reportEntity.getAssociateCity());
 			forecastReport.setBillability(reportEntity.getBillableType());
 
