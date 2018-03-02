@@ -1,9 +1,13 @@
 package com.cts.forcast.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.QueryParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,9 +33,21 @@ public class ReportsController {
 	@Autowired
 	private ReportsService reportsService;
 
-	@RequestMapping(value = "/project/{projectIds}", method = RequestMethod.GET, headers = "Accept=application/json")
-	public Collection<ForcastReport> getReportsByProjectIds(@PathVariable List<Long> projectIds) {
-		return reportsService.getByProjectIds(projectIds);
+	@RequestMapping(value = "/project", method = RequestMethod.GET)
+	// TODO : Need to map the query param in a list 
+	public Collection<ForcastReport> getReportsByProjectIds(@QueryParam("requestBy") String requestBy) {
+		
+		//****** TODO : need to update the logic
+		if(requestBy == null ) return null;
+		
+		List<Long> list = new ArrayList<Long>();
+		
+		String[] stringIDValues = requestBy.split(",");
+		for(String str : stringIDValues) {
+			list.add(Long.parseLong(str));
+		}
+		
+		return reportsService.getByProjectIds(list);
 	}
 
 	@RequestMapping(value = "/reports/employee/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
