@@ -6,6 +6,33 @@ public class Adjustment {
 	private Long adjusment;
 	private Long hours;
 	private Long rate;
+	private Long associateId;
+	private Long projectId;
+	private String locationType;
+	public Long getAssociateId() {
+		return associateId;
+	}
+
+	public void setAssociateId(Long associateId) {
+		this.associateId = associateId;
+	}
+
+	public Long getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(Long projectId) {
+		this.projectId = projectId;
+	}
+
+	public String getLocationType() {
+		return locationType;
+	}
+
+	public void setLocationType(String locationType) {
+		this.locationType = locationType;
+	}
+
 
 	public Long getHours() {
 		return hours;

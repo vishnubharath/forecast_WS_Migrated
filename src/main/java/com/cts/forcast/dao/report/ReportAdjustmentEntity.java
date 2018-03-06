@@ -2,6 +2,7 @@ package com.cts.forcast.dao.report;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -40,10 +41,10 @@ public class ReportAdjustmentEntity implements Serializable {
 	@Column(name = "Last_Updated_User")
 	private String lastUpdatedUser;
 
-	@Column(name = "Report_Id")
+	@Column(name = "Report_Id",insertable = false)
 	private Long reportId;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumns({ @JoinColumn(name = "Associate_Id", referencedColumnName = "Associate_Id"),
 			@JoinColumn(name = "Project_Id", referencedColumnName = "Project_Id"),
 			@JoinColumn(name = "Location_Type", referencedColumnName = "Location_Type") })

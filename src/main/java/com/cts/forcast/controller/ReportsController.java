@@ -87,9 +87,25 @@ public class ReportsController {
 			System.out.println(adjustment.getAdjusment());
 			System.out.println(adjustment.getHours());
 			System.out.println(adjustment.getRate());
+			System.out.println(adjustment.getLocationType());
+			System.out.println(adjustment.getAssociateId());
+			System.out.println("================");
 		}
 		reportsService.updateRecords(rep);
 	}
+	
+	@RequestMapping(value = "/duplicateRecordSave", method = RequestMethod.POST)
+	@Consumes(value = javax.ws.rs.core.MediaType.APPLICATION_JSON)
+	public void duplicateRowRecordSave(@RequestBody List<ReportEntity> rep) {
+		System.out.println("Enter into /report/duplicateRecordSave");
+		for (ReportEntity forcast : rep) {
+			System.out.println(forcast.getAssociateCity()+" "+forcast.getCustomerName()+" "+forcast.getProjectName());
+			
+		}
+		reportsService.saveRecords(rep);
+		//reportsService.updateRecords(rep);
+	}
+	
 
 	@RequestMapping(value = "/reports/saveRecord", method = RequestMethod.POST, headers = "Accept=application/json")
 	public void saveRecord(@RequestBody ReportEntity rep) {

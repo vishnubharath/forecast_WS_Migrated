@@ -14,9 +14,9 @@ public class ForcastReport {
 	private String projectBillability;
 	private Long associateId;
 	private String associateName;
-	private String location;
-	private String city;
-	private String billability;
+	private String locationType;
+	private String associateCity;
+	private String billableType;
 	private String associateGrade;
 
 	public String getAssociateGrade() {
@@ -25,7 +25,7 @@ public class ForcastReport {
 	public void setAssociateGrade(String associateGrade) {
 		this.associateGrade = associateGrade;
 	}
-	private List<ReportAdjusment> reportAdjusments;
+	private List<ReportAdjusment> reportAdjustmentEntity;
 
 	public Long getReportId() {
 		return reportId;
@@ -87,32 +87,35 @@ public class ForcastReport {
 	public void setAssociateName(String associateName) {
 		this.associateName = associateName;
 	}
-	public String getLocation() {
-		return location;
+	
+	public String getLocationType() {
+		return locationType;
 	}
-	public void setLocation(String location) {
-		this.location = location;
+	public void setLocationType(String locationType) {
+		this.locationType = locationType;
 	}
-	public String getCity() {
-		return city;
+	
+	public String getAssociateCity() {
+		return associateCity;
 	}
-	public void setCity(String city) {
-		this.city = city;
+	public void setAssociateCity(String associateCity) {
+		this.associateCity = associateCity;
 	}
-	public String getBillability() {
-		return billability;
-	}
-	public void setBillability(String billability) {
-		this.billability = billability;
-	}
+	
 
-	public List<ReportAdjusment> getReportAdjusments() {
-		return reportAdjusments;
+	public String getBillableType() {
+		return billableType;
 	}
-	public void setReportAdjusments(List<ReportAdjusment> reportAdjusments) {
-		this.reportAdjusments = reportAdjusments;
+	public void setBillableType(String billableType) {
+		this.billableType = billableType;
 	}
-
+	public List<ReportAdjusment> getReportAdjustmentEntity() {
+		return reportAdjustmentEntity;
+	}
+	public void setReportAdjustmentEntity(List<ReportAdjusment> reportAdjustmentEntity) {
+		this.reportAdjustmentEntity = reportAdjustmentEntity;
+	}
+	
 
 
 

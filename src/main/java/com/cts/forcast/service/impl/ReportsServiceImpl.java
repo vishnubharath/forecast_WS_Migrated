@@ -31,7 +31,7 @@ public class ReportsServiceImpl implements ReportsService {
 	}
 
 	public Collection<ForcastReport> getByProjectIds(List<Long> projectIds) {
-		return mapForecastReport(reportRepository.findByReportEmbeddedIdProjectIdIn(projectIds));
+		return mapForecastReport(reportRepository.findByProjectIdIn(projectIds));
 	}
 
 	public Collection<ReportEntity> getByEmpProject(final Integer employeeId, final Integer projectId) {
@@ -56,13 +56,21 @@ public class ReportsServiceImpl implements ReportsService {
 
 				adjustmentRepository.save(reportAdjustmentEntity);
 			}
+//			else if(adjustment.getAssociateId()!=null && adjustment.getLocationType()!=null){
+//				
+//				ReportEntity reportEntity=new ReportEntity();
+//				reportEntity.setAssociateId(adjustment.getAssociateId());
+//				reportEntity.setLocationType(adjustment.getLocationType());
+//				reportEntity.setProjectId(projectId);
+//			}
 		}
 
 	}
 
 	@Override
 	public void saveRecords(List<ReportEntity> rep) {
-
+		reportRepository.save(rep);
+		System.out.println("Saved");
 	}
 
 	@Override
@@ -81,19 +89,19 @@ public class ReportsServiceImpl implements ReportsService {
 		for (ReportEntity reportEntity : reportsEntities) {
 			ForcastReport forecastReport = new ForcastReport();
 			forecastReport.setReportId(reportEntity.getReportId());
-			forecastReport.setProjectId(reportEntity.getReportEmbeddedId().getProjectId());
+			forecastReport.setProjectId(reportEntity.getProjectId());
 			forecastReport.setCustomerId(reportEntity.getCustomerId());
 			forecastReport.setCustomerName(reportEntity.getCustomerName());
 			forecastReport.setProjectName(reportEntity.getProjectName());
 			forecastReport.setPortfolio(reportEntity.getPortfolio());
 			forecastReport.setPOC(reportEntity.getPoc());
 			forecastReport.setProjectBillability(reportEntity.getProjectBillability());
-			forecastReport.setAssociateId(reportEntity.getReportEmbeddedId().getAssociateId());
+			forecastReport.setAssociateId(reportEntity.getAssociateId());
 			forecastReport.setAssociateName(reportEntity.getAssociateName());
 			forecastReport.setAssociateGrade(reportEntity.getAssociateGrade());
-			forecastReport.setLocation(reportEntity.getReportEmbeddedId().getLocationType());
-			forecastReport.setCity(reportEntity.getAssociateCity());
-			forecastReport.setBillability(reportEntity.getBillableType());
+			forecastReport.setLocationType(reportEntity.getLocationType());
+			forecastReport.setAssociateCity(reportEntity.getAssociateCity());
+			forecastReport.setBillableType(reportEntity.getBillableType());
 
 			List<ReportAdjustmentEntity> reportAdjustmentEntities = reportEntity.getReportAdjustmentEntity();
 			List<ReportAdjusment> reportCostingList = new ArrayList<>();
@@ -111,7 +119,7 @@ public class ReportsServiceImpl implements ReportsService {
 				reportAdjustment.setActualYear(reportAdjustmentEntity.getActualYear());
 				reportCostingList.add(reportAdjustment);
 			}
-			forecastReport.setReportAdjusments(reportCostingList);
+			forecastReport.setReportAdjustmentEntity(reportCostingList);
 			forcastReports.add(forecastReport);
 		}
 		return forcastReports;

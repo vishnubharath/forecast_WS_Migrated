@@ -6,16 +6,16 @@ import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
-@Embeddable
+
 public class ReportEmbeddedId implements Serializable {
 
-	@Column(name = "Associate_Id")
+	
 	private Long associateId;
 
-	@Column(name = "Project_Id")
+	
 	private Long projectId;
 
-	@Column(name = "Location_Type")
+	
 	private String locationType;
 
 	public ReportEmbeddedId() {

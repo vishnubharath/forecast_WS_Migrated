@@ -24,4 +24,5 @@ public interface ReportsService {
 	public void updateRecords(List<Adjustment> rep);
 
 	public void updateRecord(ReportEntity rep);
+	
 }

@@ -4,24 +4,38 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Generated;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "Forecast_Reports")
-// @IdClass(com.cts.forcast.dao.report.ReportEntityPK.class)
+@IdClass(ReportEmbeddedId.class)
 public class ReportEntity implements Serializable {
 
-	@Column(name = "Report_Id")
+	@Column(name = "Report_Id",insertable = false)
 	private Long reportId;
 
-	@EmbeddedId
-	private ReportEmbeddedId reportEmbeddedId;
+	@Id
+	@Column(name = "Associate_Id")
+	private Long associateId;
+
+	@Id
+	@Column(name = "Project_Id")
+	private Long projectId;
+
+	@Id
+	@Column(name = "Location_Type")
+	private String locationType;
 
 	@Column(name = "Associate_Name")
 	private String associateName;
@@ -57,7 +71,7 @@ public class ReportEntity implements Serializable {
 	private String allocationPercentage;
 	@Column(name = "Last_Updated_User")
 	private String lastUpdatedUser;
-	@Column(name = "Last_Updated_Time")
+	@Column(name = "Last_Updated_Time",insertable = false)
 	private Date lastUpdatedTime;
 
 	@OneToMany(mappedBy = "reportentity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -215,12 +229,28 @@ public class ReportEntity implements Serializable {
 		this.reportAdjustmentEntity = reportAdjustmentEntity;
 	}
 
-	public ReportEmbeddedId getReportEmbeddedId() {
-		return reportEmbeddedId;
+	public Long getAssociateId() {
+		return associateId;
 	}
 
-	public void setReportEmbeddedId(ReportEmbeddedId reportEmbeddedId) {
-		this.reportEmbeddedId = reportEmbeddedId;
+	public void setAssociateId(Long associateId) {
+		this.associateId = associateId;
+	}
+
+	public String getLocationType() {
+		return locationType;
+	}
+
+	public void setLocationType(String locationType) {
+		this.locationType = locationType;
+	}
+
+	public Long getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(Long projectId) {
+		this.projectId = projectId;
 	}
 
 }
