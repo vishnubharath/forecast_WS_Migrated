@@ -4,25 +4,23 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.Generated;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name = "Forecast_Reports")
 @IdClass(ReportEmbeddedId.class)
 public class ReportEntity implements Serializable {
 
-	@Column(name = "Report_Id",insertable = false)
+	@Column(name = "Report_Id", insertable = false)
 	private Long reportId;
 
 	@Id
@@ -71,10 +69,11 @@ public class ReportEntity implements Serializable {
 	private String allocationPercentage;
 	@Column(name = "Last_Updated_User")
 	private String lastUpdatedUser;
-	@Column(name = "Last_Updated_Time",insertable = false)
+	@Column(name = "Last_Updated_Time", insertable = false)
 	private Date lastUpdatedTime;
 
-	@OneToMany(mappedBy = "reportentity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "reportentity", fetch = FetchType.LAZY)
+	@Cascade({ CascadeType.ALL })
 	private List<ReportAdjustmentEntity> reportAdjustmentEntity;
 
 	public Long getReportId() {

@@ -56,13 +56,14 @@ public class ReportsServiceImpl implements ReportsService {
 
 				adjustmentRepository.save(reportAdjustmentEntity);
 			}
-//			else if(adjustment.getAssociateId()!=null && adjustment.getLocationType()!=null){
-//				
-//				ReportEntity reportEntity=new ReportEntity();
-//				reportEntity.setAssociateId(adjustment.getAssociateId());
-//				reportEntity.setLocationType(adjustment.getLocationType());
-//				reportEntity.setProjectId(projectId);
-//			}
+			// else if(adjustment.getAssociateId()!=null &&
+			// adjustment.getLocationType()!=null){
+			//
+			// ReportEntity reportEntity=new ReportEntity();
+			// reportEntity.setAssociateId(adjustment.getAssociateId());
+			// reportEntity.setLocationType(adjustment.getLocationType());
+			// reportEntity.setProjectId(projectId);
+			// }
 		}
 
 	}
@@ -123,6 +124,10 @@ public class ReportsServiceImpl implements ReportsService {
 			forcastReports.add(forecastReport);
 		}
 		return forcastReports;
+	}
+
+	public void deleteRecord(List<ReportEntity> rep) {
+		reportRepository.delete(rep);
 	}
 
 }

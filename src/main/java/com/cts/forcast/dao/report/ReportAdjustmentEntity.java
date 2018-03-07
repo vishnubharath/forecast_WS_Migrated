@@ -2,7 +2,6 @@ package com.cts.forcast.dao.report;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,11 +12,17 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 @Entity
 @Table(name = "Forecast_Reports_Costing")
-// @IdClass(com.cts.forcast.dao.report.ReportAdjustmentEntityPK.class)
 public class ReportAdjustmentEntity implements Serializable {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -7501548160337177260L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "Costing_Id")
@@ -41,10 +46,8 @@ public class ReportAdjustmentEntity implements Serializable {
 	@Column(name = "Last_Updated_User")
 	private String lastUpdatedUser;
 
-	@Column(name = "Report_Id",insertable = false)
-	private Long reportId;
-
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
+	@Cascade({ CascadeType.ALL })
 	@JoinColumns({ @JoinColumn(name = "Associate_Id", referencedColumnName = "Associate_Id"),
 			@JoinColumn(name = "Project_Id", referencedColumnName = "Project_Id"),
 			@JoinColumn(name = "Location_Type", referencedColumnName = "Location_Type") })
