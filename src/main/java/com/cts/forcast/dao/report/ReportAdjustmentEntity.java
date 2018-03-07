@@ -25,7 +25,7 @@ public class ReportAdjustmentEntity implements Serializable {
 	private static final long serialVersionUID = -7501548160337177260L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "Costing_Id")
+	@Column(name = "Costing_Id",updatable =false)
 	private Long id;
 	@Column(name = "Hours")
 	private Long hours;

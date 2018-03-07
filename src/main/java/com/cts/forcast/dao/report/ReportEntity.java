@@ -20,7 +20,7 @@ import org.hibernate.annotations.CascadeType;
 @IdClass(ReportEmbeddedId.class)
 public class ReportEntity implements Serializable {
 
-	@Column(name = "Report_Id", insertable = false)
+	@Column(name = "Report_Id", insertable = false,updatable =false)
 	private Long reportId;
 
 	@Id
@@ -69,8 +69,7 @@ public class ReportEntity implements Serializable {
 	private String allocationPercentage;
 	@Column(name = "Last_Updated_User")
 	private String lastUpdatedUser;
-	@Column(name = "Last_Updated_Time", insertable = false)
-	private Date lastUpdatedTime;
+	
 
 	@OneToMany(mappedBy = "reportentity", fetch = FetchType.LAZY)
 	@Cascade({ CascadeType.ALL })
@@ -212,13 +211,6 @@ public class ReportEntity implements Serializable {
 		this.lastUpdatedUser = lastUpdatedUser;
 	}
 
-	public Date getLastUpdatedTime() {
-		return lastUpdatedTime;
-	}
-
-	public void setLastUpdatedTime(Date lastUpdatedTime) {
-		this.lastUpdatedTime = lastUpdatedTime;
-	}
 
 	public List<ReportAdjustmentEntity> getReportAdjustmentEntity() {
 		return reportAdjustmentEntity;

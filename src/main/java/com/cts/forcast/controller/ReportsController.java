@@ -112,7 +112,7 @@ public class ReportsController {
 				for (ReportAdjustmentEntity repAdjustment : forcast.getReportAdjustmentEntity()) {
 					repAdjustment.setActualYear(year);
 					repAdjustment.setActualMonth(month);
-					repAdjustment.setReportentity(forcast);
+					//repAdjustment.setReportentity(forcast);
 					// repAdjustment.setReportId(forcast.getReportId());
 
 				}
