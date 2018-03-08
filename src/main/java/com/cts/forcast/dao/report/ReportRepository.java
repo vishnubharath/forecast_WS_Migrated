@@ -12,7 +12,7 @@ import org.springframework.data.repository.CrudRepository;
 @Transactional
 public interface ReportRepository extends CrudRepository<ReportEntity, Long> {
 
-	@Query(value = "SELECT top 10 * FROM Forecast_Reports order by forecasted", nativeQuery = true)
+	@Query(value = "SELECT top 10 * FROM Forecast_Reports", nativeQuery = true)
 	Collection<ReportEntity> findAllReportsWithLimited();
 
 	@Transactional
