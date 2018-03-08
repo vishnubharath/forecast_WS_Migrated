@@ -1,6 +1,8 @@
 package com.cts.forcast.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
@@ -53,24 +55,54 @@ public class ReportsServiceImpl implements ReportsService {
 				reportAdjustmentEntity.setAdjustment(adjustment.getAdjusment());
 				reportAdjustmentEntity.setHours(adjustment.getHours());
 				reportAdjustmentEntity.setRate(adjustment.getRate());
-
 				adjustmentRepository.save(reportAdjustmentEntity);
 			}
-			// else if(adjustment.getAssociateId()!=null &&
-			// adjustment.getLocationType()!=null){
-			//
-			// ReportEntity reportEntity=new ReportEntity();
-			// reportEntity.setAssociateId(adjustment.getAssociateId());
-			// reportEntity.setLocationType(adjustment.getLocationType());
-			// reportEntity.setProjectId(projectId);
-			// }
+
 		}
 
 	}
 
 	@Override
 	public void saveRecords(List<ReportEntity> rep) {
-		reportRepository.save(rep);
+
+		System.out.println("Enter into /report/duplicateRecordSave");
+		Calendar cal = Calendar.getInstance();
+		String month = new SimpleDateFormat("MMM").format(cal.getTime());
+
+		Long year = (long) Calendar.getInstance().get(Calendar.YEAR);
+		/*
+		 * List<ReportEntity> duplicatedReportEntities =
+		 * rep.stream().filter(item -> item.getReportId() == null)
+		 * .collect(Collectors.toList()); List<ReportEntity>
+		 * updatedReportEntities = rep.stream().filter(item ->
+		 * item.getReportId() != null) .collect(Collectors.toList());
+		 */
+		/* if (!duplicatedReportEntities.isEmpty()) { */
+		for (ReportEntity forcast : rep) {
+
+			if (forcast.getReportAdjustmentEntity() != null && forcast.getReportAdjustmentEntity().size() > 0) {
+				if (adjustmentRepository.exists(forcast.getReportAdjustmentEntity().get(0).getId())) {
+					adjustmentRepository.save(forcast.getReportAdjustmentEntity());
+				} else {
+					forcast.getReportAdjustmentEntity().forEach(repAdjustmentEntity -> {
+
+						repAdjustmentEntity.setActualYear(year);
+						repAdjustmentEntity.setActualMonth(month);
+						repAdjustmentEntity.setReportentity(forcast);
+
+					});
+					forcast.setActualMonth(month);
+					forcast.setActualYear(year.toString());
+					reportRepository.save(forcast);
+				}
+
+			}
+
+			System.out.println(
+					forcast.getAssociateCity() + " " + forcast.getCustomerName() + " " + forcast.getProjectName());
+
+		}
+
 		System.out.println("Saved");
 	}
 
@@ -108,7 +140,7 @@ public class ReportsServiceImpl implements ReportsService {
 			List<ReportAdjusment> reportCostingList = new ArrayList<>();
 			for (ReportAdjustmentEntity reportAdjustmentEntity : reportAdjustmentEntities) {
 				ReportAdjusment reportAdjustment = new ReportAdjusment();
-				reportAdjustment.setId(reportAdjustmentEntity.getId());
+				// reportAdjustment.setId(reportAdjustmentEntity.getId());
 				reportAdjustment.setAdjustment(reportAdjustmentEntity.getAdjustment());
 				reportAdjustment
 						.setHours(reportAdjustmentEntity.getHours() == null ? 0 : reportAdjustmentEntity.getHours());
@@ -127,7 +159,14 @@ public class ReportsServiceImpl implements ReportsService {
 	}
 
 	public void deleteRecord(List<ReportEntity> rep) {
-		reportRepository.delete(rep);
+		for (ReportEntity forcast : rep) {
+
+			if (forcast.getReportAdjustmentEntity() != null && forcast.getReportAdjustmentEntity().size() > 0) {
+				adjustmentRepository.delete(forcast.getReportAdjustmentEntity());
+			}
+
+			reportRepository.delete(forcast);
+		}
 	}
 
 }

@@ -1,8 +1,6 @@
 package com.cts.forcast.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cts.forcast.dao.report.ReportAdjustmentEntity;
 import com.cts.forcast.dao.report.ReportEntity;
 import com.cts.forcast.domain.report.Adjustment;
 import com.cts.forcast.domain.report.ForcastReport;
@@ -99,31 +96,9 @@ public class ReportsController {
 	@RequestMapping(value = "/duplicateRecordSave", method = RequestMethod.POST)
 	@Consumes(value = javax.ws.rs.core.MediaType.APPLICATION_JSON)
 	public void duplicateRowRecordSave(@RequestBody List<ReportEntity> rep) {
-		System.out.println("Enter into /report/duplicateRecordSave");
-		Calendar cal = Calendar.getInstance();
-		String month = new SimpleDateFormat("MMM").format(cal.getTime());
 
-		Long year = (long) Calendar.getInstance().get(Calendar.YEAR);
-
-		for (ReportEntity forcast : rep) {
-			forcast.setActualMonth(month);
-			forcast.setActualYear(year.toString());
-			if (forcast.getReportAdjustmentEntity() != null && forcast.getReportAdjustmentEntity().size() > 0) {
-				for (ReportAdjustmentEntity repAdjustment : forcast.getReportAdjustmentEntity()) {
-					repAdjustment.setActualYear(year);
-					repAdjustment.setActualMonth(month);
-					//repAdjustment.setReportentity(forcast);
-					// repAdjustment.setReportId(forcast.getReportId());
-
-				}
-			}
-
-			System.out.println(
-					forcast.getAssociateCity() + " " + forcast.getCustomerName() + " " + forcast.getProjectName());
-
-		}
 		reportsService.saveRecords(rep);
-		// reportsService.updateRecords(rep);
+
 	}
 
 	@RequestMapping(value = "/reports/saveRecord", method = RequestMethod.POST, headers = "Accept=application/json")

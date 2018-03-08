@@ -12,9 +12,6 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
 @Entity
 @Table(name = "Forecast_Reports_Costing")
 public class ReportAdjustmentEntity implements Serializable {
@@ -25,7 +22,7 @@ public class ReportAdjustmentEntity implements Serializable {
 	private static final long serialVersionUID = -7501548160337177260L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "Costing_Id",updatable =false)
+	@Column(name = "Costing_Id")
 	private Long id;
 	@Column(name = "Hours")
 	private Long hours;
@@ -47,7 +44,6 @@ public class ReportAdjustmentEntity implements Serializable {
 	private String lastUpdatedUser;
 
 	@ManyToOne
-	@Cascade({ CascadeType.ALL })
 	@JoinColumns({ @JoinColumn(name = "Associate_Id", referencedColumnName = "Associate_Id"),
 			@JoinColumn(name = "Project_Id", referencedColumnName = "Project_Id"),
 			@JoinColumn(name = "Location_Type", referencedColumnName = "Location_Type") })
