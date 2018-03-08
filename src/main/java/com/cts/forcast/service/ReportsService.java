@@ -4,26 +4,15 @@ import java.util.Collection;
 import java.util.List;
 
 import com.cts.forcast.dao.report.ReportEntity;
-import com.cts.forcast.domain.report.Adjustment;
 import com.cts.forcast.domain.report.ForcastReport;
 
 public interface ReportsService {
 
-	public Collection<ReportEntity> getByEmployeeId(Integer projectId);
-
 	public Collection<ForcastReport> getByProjectIds(List<Long> projectIds);
-
-	public Collection<ReportEntity> getByEmpProject(Integer employeeId, Integer projectId);
 
 	public Collection<ForcastReport> getAll();
 
-	public Collection<ReportEntity> getAllLeaves();
-
 	public void saveRecords(List<ReportEntity> rep);
-
-	public void updateRecords(List<Adjustment> rep);
-
-	public void updateRecord(ReportEntity rep);
 
 	public void deleteRecord(List<ReportEntity> rep);
 

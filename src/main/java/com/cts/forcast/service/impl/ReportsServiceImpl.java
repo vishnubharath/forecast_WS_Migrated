@@ -13,7 +13,6 @@ import com.cts.forcast.dao.report.ReportAdjustmentEntity;
 import com.cts.forcast.dao.report.ReportAdjustmentRepository;
 import com.cts.forcast.dao.report.ReportEntity;
 import com.cts.forcast.dao.report.ReportRepository;
-import com.cts.forcast.domain.report.Adjustment;
 import com.cts.forcast.domain.report.ForcastReport;
 import com.cts.forcast.domain.report.ReportAdjusment;
 import com.cts.forcast.service.ReportsService;
@@ -27,18 +26,8 @@ public class ReportsServiceImpl implements ReportsService {
 	@Autowired
 	private ReportAdjustmentRepository adjustmentRepository;
 
-	public Collection<ReportEntity> getByEmployeeId(final Integer id) {
-
-		return null;
-	}
-
 	public Collection<ForcastReport> getByProjectIds(List<Long> projectIds) {
 		return mapForecastReport(reportRepository.findByProjectIdIn(projectIds));
-	}
-
-	public Collection<ReportEntity> getByEmpProject(final Integer employeeId, final Integer projectId) {
-
-		return null;
 	}
 
 	public Collection<ForcastReport> getAll() {
@@ -46,47 +35,26 @@ public class ReportsServiceImpl implements ReportsService {
 		return forcastReports;
 	}
 
-	public void updateRecords(List<Adjustment> adjustments) {
-
-		for (Adjustment adjustment : adjustments) {
-			if (adjustment.getId() != null) {
-				ReportAdjustmentEntity reportAdjustmentEntity = adjustmentRepository.findOne(adjustment.getId());
-				System.out.println(reportAdjustmentEntity.getAdjustment());
-				reportAdjustmentEntity.setAdjustment(adjustment.getAdjusment());
-				reportAdjustmentEntity.setHours(adjustment.getHours());
-				reportAdjustmentEntity.setRate(adjustment.getRate());
-				adjustmentRepository.save(reportAdjustmentEntity);
-			}
-
-		}
-
-	}
-
 	@Override
 	public void saveRecords(List<ReportEntity> rep) {
 
-		System.out.println("Enter into /report/duplicateRecordSave");
+		// System.out.println("Enter into /report/duplicateRecordSave");
 		Calendar cal = Calendar.getInstance();
 		String month = new SimpleDateFormat("MMM").format(cal.getTime());
 
 		Long year = (long) Calendar.getInstance().get(Calendar.YEAR);
-		/*
-		 * List<ReportEntity> duplicatedReportEntities =
-		 * rep.stream().filter(item -> item.getReportId() == null)
-		 * .collect(Collectors.toList()); List<ReportEntity>
-		 * updatedReportEntities = rep.stream().filter(item ->
-		 * item.getReportId() != null) .collect(Collectors.toList());
-		 */
-		/* if (!duplicatedReportEntities.isEmpty()) { */
+
 		for (ReportEntity forcast : rep) {
 
+			// Updating existing records
 			if (forcast.getReportAdjustmentEntity() != null && forcast.getReportAdjustmentEntity().size() > 0) {
 				if (adjustmentRepository.exists(forcast.getReportAdjustmentEntity().get(0).getId())) {
 					forcast.getReportAdjustmentEntity().forEach(repAdjustmentEntity -> {
 						repAdjustmentEntity.setReportentity(forcast);
 						adjustmentRepository.save(repAdjustmentEntity);
 					});
-					
+
+					// Inserting new records(duplicate/added records insertion)
 				} else {
 					forcast.getReportAdjustmentEntity().forEach(repAdjustmentEntity -> {
 
@@ -102,23 +70,13 @@ public class ReportsServiceImpl implements ReportsService {
 
 			}
 
-			System.out.println(
-					forcast.getAssociateCity() + " " + forcast.getCustomerName() + " " + forcast.getProjectName());
-
+			/*
+			 * System.out.println( forcast.getAssociateCity() + " " +
+			 * forcast.getCustomerName() + " " + forcast.getProjectName());
+			 */
 		}
 
 		System.out.println("Saved");
-	}
-
-	@Override
-	public Collection<com.cts.forcast.dao.report.ReportEntity> getAllLeaves() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void updateRecord(ReportEntity rep) {
-		reportRepository.save(rep);
 	}
 
 	private List<ForcastReport> mapForecastReport(Iterable<ReportEntity> reportsEntities) {
@@ -165,13 +123,12 @@ public class ReportsServiceImpl implements ReportsService {
 	public void deleteRecord(List<ReportEntity> rep) {
 		for (ReportEntity forcast : rep) {
 
-			
 			if (forcast.getReportAdjustmentEntity() != null && forcast.getReportAdjustmentEntity().size() > 0) {
 				forcast.getReportAdjustmentEntity().forEach(repAdjustmentEntity -> {
 					repAdjustmentEntity.setReportentity(forcast);
 					adjustmentRepository.delete(repAdjustmentEntity);
 				});
-				
+
 			}
 
 			reportRepository.delete(forcast);
