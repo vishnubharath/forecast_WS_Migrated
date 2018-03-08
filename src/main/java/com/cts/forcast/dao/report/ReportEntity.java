@@ -70,7 +70,7 @@ public class ReportEntity implements Serializable {
 	@Column(name = "Last_Updated_User")
 	private String lastUpdatedUser;
 
-	@OneToMany(mappedBy = "reportentity", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "reportentity", fetch = FetchType.LAZY)
 	@Cascade({ CascadeType.ALL })
 	private List<ReportAdjustmentEntity> reportAdjustmentEntity;
 

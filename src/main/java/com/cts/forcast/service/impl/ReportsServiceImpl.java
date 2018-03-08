@@ -82,7 +82,11 @@ public class ReportsServiceImpl implements ReportsService {
 
 			if (forcast.getReportAdjustmentEntity() != null && forcast.getReportAdjustmentEntity().size() > 0) {
 				if (adjustmentRepository.exists(forcast.getReportAdjustmentEntity().get(0).getId())) {
-					adjustmentRepository.save(forcast.getReportAdjustmentEntity());
+					forcast.getReportAdjustmentEntity().forEach(repAdjustmentEntity -> {
+						repAdjustmentEntity.setReportentity(forcast);
+						adjustmentRepository.save(repAdjustmentEntity);
+					});
+					
 				} else {
 					forcast.getReportAdjustmentEntity().forEach(repAdjustmentEntity -> {
 
@@ -140,7 +144,7 @@ public class ReportsServiceImpl implements ReportsService {
 			List<ReportAdjusment> reportCostingList = new ArrayList<>();
 			for (ReportAdjustmentEntity reportAdjustmentEntity : reportAdjustmentEntities) {
 				ReportAdjusment reportAdjustment = new ReportAdjusment();
-				// reportAdjustment.setId(reportAdjustmentEntity.getId());
+				reportAdjustment.setId(reportAdjustmentEntity.getId());
 				reportAdjustment.setAdjustment(reportAdjustmentEntity.getAdjustment());
 				reportAdjustment
 						.setHours(reportAdjustmentEntity.getHours() == null ? 0 : reportAdjustmentEntity.getHours());
@@ -161,8 +165,13 @@ public class ReportsServiceImpl implements ReportsService {
 	public void deleteRecord(List<ReportEntity> rep) {
 		for (ReportEntity forcast : rep) {
 
+			
 			if (forcast.getReportAdjustmentEntity() != null && forcast.getReportAdjustmentEntity().size() > 0) {
-				adjustmentRepository.delete(forcast.getReportAdjustmentEntity());
+				forcast.getReportAdjustmentEntity().forEach(repAdjustmentEntity -> {
+					repAdjustmentEntity.setReportentity(forcast);
+					adjustmentRepository.delete(repAdjustmentEntity);
+				});
+				
 			}
 
 			reportRepository.delete(forcast);
