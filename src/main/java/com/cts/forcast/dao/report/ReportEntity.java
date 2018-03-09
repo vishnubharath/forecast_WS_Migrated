@@ -14,6 +14,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "Forecast_Reports")
@@ -63,9 +64,11 @@ public class ReportEntity implements Serializable {
 	private String associateGrade;
 
 	@Column(name = "Alloc_Start_Date")
+	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date allocStartDate;
 
 	@Column(name = "Alloc_End_Date")
+	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date allocEnddate;
 
 	@Column(name = "Project_Billability")
