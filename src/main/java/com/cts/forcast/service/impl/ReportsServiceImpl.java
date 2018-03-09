@@ -1,9 +1,11 @@
 package com.cts.forcast.service.impl;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,6 +99,11 @@ public class ReportsServiceImpl implements ReportsService {
 			forecastReport.setLocationType(reportEntity.getLocationType());
 			forecastReport.setAssociateCity(reportEntity.getAssociateCity());
 			forecastReport.setBillableType(reportEntity.getBillableType());
+			forecastReport.setAllocationPercentage(reportEntity.getAllocationPercentage());
+			forecastReport.setAllocStartDate(
+					reportEntity.getAllocStartDate() != null ? formatDate(reportEntity.getAllocStartDate()) : "");
+			forecastReport.setAllocEnddate(
+					reportEntity.getAllocEnddate() != null ? formatDate(reportEntity.getAllocEnddate()) : "");
 
 			List<ReportAdjustmentEntity> reportAdjustmentEntities = reportEntity.getReportAdjustmentEntity();
 			List<ReportAdjusment> reportCostingList = new ArrayList<>();
@@ -135,4 +142,8 @@ public class ReportsServiceImpl implements ReportsService {
 		}
 	}
 
+	private String formatDate(Date date) {
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		return df.format(date);
+	}
 }

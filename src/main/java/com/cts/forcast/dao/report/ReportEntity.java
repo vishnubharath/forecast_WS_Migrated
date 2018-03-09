@@ -37,36 +37,49 @@ public class ReportEntity implements Serializable {
 
 	@Column(name = "Associate_Name")
 	private String associateName;
+
 	@Column(name = "Associate_City")
 	private String associateCity;
 
 	@Column(name = "Customer_Id")
 	private Long customerId;
+
 	@Column(name = "Customer_Name")
 	private String customerName;
 
 	@Column(name = "Project_Name")
 	private String projectName;
+
 	@Column(name = "Portfolio")
 	private String portfolio;
+
 	@Column(name = "POC")
 	private String poc;
+
 	@Column(name = "Billable_Type")
 	private String billableType;
+
 	@Column(name = "Associate_Grade")
 	private String associateGrade;
+
 	@Column(name = "Alloc_Start_Date")
 	private Date allocStartDate;
+
 	@Column(name = "Alloc_End_Date")
 	private Date allocEnddate;
+
 	@Column(name = "Project_Billability")
 	private String projectBillability;
+
 	@Column(name = "Actual_Month")
 	private String actualMonth;
+
 	@Column(name = "Actual_Year")
 	private String actualYear;
+
 	@Column(name = "Allocation_Percentage")
 	private String allocationPercentage;
+
 	@Column(name = "Last_Updated_User")
 	private String lastUpdatedUser;
 
