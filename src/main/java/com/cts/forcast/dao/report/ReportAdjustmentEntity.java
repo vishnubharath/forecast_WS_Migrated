@@ -1,6 +1,7 @@
 package com.cts.forcast.dao.report;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,22 +25,34 @@ public class ReportAdjustmentEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "Costing_Id")
 	private Long id;
+
 	@Column(name = "Hours")
 	private Long hours;
+
 	@Column(name = "Adjustment")
 	private Long adjustment;
+
 	@Column(name = "Rate")
 	private Long rate;
+
 	@Column(name = "Revenue")
 	private String revenue;
+
 	@Column(name = "Forecasted_Month")
 	private String forecastedMonth;
+
 	@Column(name = "Forecasted_Year")
 	private Long forecastedYear;
+
+	@Column(name = "Date_Ref_Forecast")
+	private Date ref_Date_Forecast;
+
 	@Column(name = "Actual_Month")
 	private String actualMonth;
+
 	@Column(name = "Actual_Year")
 	private Long actualYear;
+
 	@Column(name = "Last_Updated_User")
 	private String lastUpdatedUser;
 
@@ -135,6 +148,14 @@ public class ReportAdjustmentEntity implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Date getRef_Date_Forecast() {
+		return ref_Date_Forecast;
+	}
+
+	public void setRef_Date_Forecast(Date ref_Date_Forecast) {
+		this.ref_Date_Forecast = ref_Date_Forecast;
 	}
 
 }

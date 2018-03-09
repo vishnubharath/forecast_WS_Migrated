@@ -1,7 +1,5 @@
 package com.cts.forcast.domain.report;
 
-import java.util.List;
-
 public class ForcastReport {
 
 	private Long reportId;
@@ -32,7 +30,7 @@ public class ForcastReport {
 		this.associateGrade = associateGrade;
 	}
 
-	private List<ReportAdjusment> reportAdjustmentEntity;
+	private ReportAdjusment reportAdjustmentEntity[];
 
 	public Long getReportId() {
 		return reportId;
@@ -178,11 +176,11 @@ public class ForcastReport {
 		this.actualYear = actualYear;
 	}
 
-	public List<ReportAdjusment> getReportAdjustmentEntity() {
+	public ReportAdjusment[] getReportAdjustmentEntity() {
 		return reportAdjustmentEntity;
 	}
 
-	public void setReportAdjustmentEntity(List<ReportAdjusment> reportAdjustmentEntity) {
+	public void setReportAdjustmentEntity(ReportAdjusment[] reportAdjustmentEntity) {
 		this.reportAdjustmentEntity = reportAdjustmentEntity;
 	}
 

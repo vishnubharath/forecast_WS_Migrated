@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -67,15 +68,12 @@ public class ReportsServiceImpl implements ReportsService {
 					});
 					forcast.setActualMonth(month);
 					forcast.setActualYear(year.toString());
+
 					reportRepository.save(forcast);
 				}
 
 			}
 
-			/*
-			 * System.out.println( forcast.getAssociateCity() + " " +
-			 * forcast.getCustomerName() + " " + forcast.getProjectName());
-			 */
 		}
 
 		System.out.println("Saved");
@@ -106,6 +104,7 @@ public class ReportsServiceImpl implements ReportsService {
 					reportEntity.getAllocEnddate() != null ? formatDate(reportEntity.getAllocEnddate()) : "");
 
 			List<ReportAdjustmentEntity> reportAdjustmentEntities = reportEntity.getReportAdjustmentEntity();
+			reportAdjustmentEntities.sort(Comparator.comparing(ReportAdjustmentEntity::getRef_Date_Forecast));
 			List<ReportAdjusment> reportCostingList = new ArrayList<>();
 			for (ReportAdjustmentEntity reportAdjustmentEntity : reportAdjustmentEntities) {
 				ReportAdjusment reportAdjustment = new ReportAdjusment();
@@ -121,7 +120,8 @@ public class ReportsServiceImpl implements ReportsService {
 				reportAdjustment.setActualYear(reportAdjustmentEntity.getActualYear());
 				reportCostingList.add(reportAdjustment);
 			}
-			forecastReport.setReportAdjustmentEntity(reportCostingList);
+			forecastReport.setReportAdjustmentEntity(
+					reportCostingList.toArray(new ReportAdjusment[reportCostingList.size()]));
 			forcastReports.add(forecastReport);
 		}
 		return forcastReports;
@@ -146,4 +146,5 @@ public class ReportsServiceImpl implements ReportsService {
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 		return df.format(date);
 	}
+
 }
