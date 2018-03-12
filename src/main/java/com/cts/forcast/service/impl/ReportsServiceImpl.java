@@ -66,6 +66,7 @@ public class ReportsServiceImpl implements ReportsService {
 						repAdjustmentEntity.setReportentity(forcast);
 
 					});
+
 					forcast.setActualMonth(month);
 					forcast.setActualYear(year.toString());
 
@@ -101,10 +102,12 @@ public class ReportsServiceImpl implements ReportsService {
 			forecastReport.setAllocStartDate(
 					reportEntity.getAllocStartDate() != null ? formatDate(reportEntity.getAllocStartDate()) : "");
 			forecastReport.setAllocEnddate(
-					reportEntity.getAllocEnddate() != null ? formatDate(reportEntity.getAllocEnddate()) : "");
+					reportEntity.getAllocEndDate() != null ? formatDate(reportEntity.getAllocEndDate()) : "");
 
 			List<ReportAdjustmentEntity> reportAdjustmentEntities = reportEntity.getReportAdjustmentEntity();
-			reportAdjustmentEntities.sort(Comparator.comparing(ReportAdjustmentEntity::getRef_Date_Forecast));
+
+			reportAdjustmentEntities.sort(Comparator.comparing(ReportAdjustmentEntity::getRef_Date_Forecast,
+					Comparator.nullsFirst(Comparator.naturalOrder())));
 			List<ReportAdjusment> reportCostingList = new ArrayList<>();
 			for (ReportAdjustmentEntity reportAdjustmentEntity : reportAdjustmentEntities) {
 				ReportAdjusment reportAdjustment = new ReportAdjusment();
@@ -146,5 +149,22 @@ public class ReportsServiceImpl implements ReportsService {
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 		return df.format(date);
 	}
+
+	// private Date convertDate(Date date) {
+	// try {
+	// Date dateconverted = null;
+	// DateTimeFormatter f = DateTimeFormatter.ofPattern("E MMM dd HH:mm:ss z
+	// uuuu").withLocale(Locale.US);
+	// ZonedDateTime zdt = ZonedDateTime.parse(date.toString(), f);
+	// LocalDate ld = zdt.toLocalDate();
+	// DateTimeFormatter fLocalDate = DateTimeFormatter.ofPattern("dd/MM/uuuu");
+	// String output = ld.format(fLocalDate);
+	// System.out.println("Date Converted:" + output);
+	// DateFormat targetDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+	// dateconverted = targetDateFormat.parse(output);
+	// } catch (ParseException e) {
+	//
+	// e.printStackTrace();
+	// }
 
 }
