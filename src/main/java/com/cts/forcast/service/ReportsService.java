@@ -12,7 +12,7 @@ public interface ReportsService {
 
 	public Collection<ForcastReport> getAll();
 
-	public void saveRecords(List<ReportEntity> rep);
+	public void saveRecords(List<ReportEntity> rep) throws Exception;
 
 	public void deleteRecord(List<ReportEntity> rep);
 

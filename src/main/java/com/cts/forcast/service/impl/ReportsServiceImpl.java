@@ -44,9 +44,8 @@ public class ReportsServiceImpl implements ReportsService {
 	}
 
 	@Override
-	public void saveRecords(List<ReportEntity> rep) {
+	public void saveRecords(List<ReportEntity> rep) throws Exception {
 
-		// System.out.println("Enter into /report/duplicateRecordSave");
 		Calendar cal = Calendar.getInstance();
 		String month = new SimpleDateFormat("MMM").format(cal.getTime());
 
@@ -62,7 +61,8 @@ public class ReportsServiceImpl implements ReportsService {
 						adjustmentRepository.save(repAdjustmentEntity);
 					});
 
-					// Inserting new records(duplicate/added records insertion)
+					// Inserting new records(duplicate/added records
+					// insertion)
 				} else {
 					forcast.getReportAdjustmentEntity().forEach(repAdjustmentEntity -> {
 
@@ -86,6 +86,7 @@ public class ReportsServiceImpl implements ReportsService {
 		}
 
 		System.out.println("Saved");
+
 	}
 
 	private List<ForcastReport> mapForecastReport(Iterable<ReportEntity> reportsEntities) {
@@ -158,22 +159,19 @@ public class ReportsServiceImpl implements ReportsService {
 		return df.format(date);
 	}
 
-	private Date convertDate(Date date) {
+	private Date convertDate(Date date) throws ParseException {
 		Date dateconverted = null;
-		try {
 
-			DateTimeFormatter f = DateTimeFormatter.ofPattern("E MMM dd HH:mm:ss z uuuu").withLocale(Locale.US);
-			ZonedDateTime zdt = ZonedDateTime.parse(date.toString(), f);
-			LocalDate ld = zdt.toLocalDate();
-			System.out.println("ld" + ld.toString());
-			DateTimeFormatter fLocalDate = DateTimeFormatter.ofPattern("uuuu-MM-dd");
-			String output = ld.format(fLocalDate);
-			System.out.println("Date Converted:" + output);
-			DateFormat targetDateFormat = new SimpleDateFormat("uuuu-MM-dd");
-			dateconverted = targetDateFormat.parse(output);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		DateTimeFormatter f = DateTimeFormatter.ofPattern("E MMM dd HH:mm:ss z uuuu").withLocale(Locale.US);
+		ZonedDateTime zdt = ZonedDateTime.parse(date.toString(), f);
+		LocalDate ld = zdt.toLocalDate();
+		System.out.println("ld" + ld.toString());
+		DateTimeFormatter fLocalDate = DateTimeFormatter.ofPattern("uuuu-MM-dd");
+		String output = ld.format(fLocalDate);
+		System.out.println("Date Converted:" + output);
+		DateFormat targetDateFormat = new SimpleDateFormat("uuuu-MM-dd");
+		dateconverted = targetDateFormat.parse(output);
+
 		return dateconverted;
 	}
 
