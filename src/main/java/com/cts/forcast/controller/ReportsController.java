@@ -1,5 +1,6 @@
 package com.cts.forcast.controller;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -48,14 +49,26 @@ public class ReportsController {
 		for (String str : stringIDValues) {
 			list.add(Long.parseLong(str));
 		}
+		Collection<ForcastReport> reportsList = null;
+		try {
+			reportsList = reportsService.getByProjectIds(list);
+		} catch (ParseException exception) {
+			exception.printStackTrace();
+		}
+		return reportsList;
 
-		return reportsService.getByProjectIds(list);
 	}
 
 	@RequestMapping(value = "/all", method = RequestMethod.GET, headers = "Accept=application/json")
 	public Collection<ForcastReport> getALLReports() {
 		System.out.println("Enterting /reports/all");
-		return reportsService.getAll();
+		Collection<ForcastReport> reportsList = null;
+		try {
+			reportsList = reportsService.getAll();
+		} catch (ParseException exception) {
+			exception.printStackTrace();
+		}
+		return reportsList;
 	}
 
 	@RequestMapping(value = "/saveRecords", method = RequestMethod.POST)
@@ -74,8 +87,16 @@ public class ReportsController {
 
 	@ExceptionHandler({ Exception.class })
 	public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {
+		ex.printStackTrace();
 		GenericError error = new GenericError(HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage(),
 				"error occurred");
+		return new ResponseEntity<>(error, new HttpHeaders(), error.getStatus());
+	}
+
+	@ExceptionHandler({ ParseException.class })
+	public ResponseEntity<Object> handleAll(ParseException ex, WebRequest request) {
+		GenericError error = new GenericError(HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage(),
+				"Parse error occurred");
 		return new ResponseEntity<>(error, new HttpHeaders(), error.getStatus());
 	}
 
