@@ -1,13 +1,18 @@
 package com.cts.forcast.service.impl;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,7 +71,10 @@ public class ReportsServiceImpl implements ReportsService {
 						repAdjustmentEntity.setReportentity(forcast);
 
 					});
-
+					Date allocStartDate = forcast.getAllocStartDate();
+					Date allocEndDate = forcast.getAllocEndDate();
+					forcast.setAllocStartDate(convertDate(allocStartDate));
+					forcast.setAllocEndDate(convertDate(allocEndDate));
 					forcast.setActualMonth(month);
 					forcast.setActualYear(year.toString());
 
@@ -150,21 +158,40 @@ public class ReportsServiceImpl implements ReportsService {
 		return df.format(date);
 	}
 
+	private Date convertDate(Date date) {
+		Date dateconverted = null;
+		try {
+
+			DateTimeFormatter f = DateTimeFormatter.ofPattern("E MMM dd HH:mm:ss z uuuu").withLocale(Locale.US);
+			ZonedDateTime zdt = ZonedDateTime.parse(date.toString(), f);
+			LocalDate ld = zdt.toLocalDate();
+			System.out.println("ld" + ld.toString());
+			DateTimeFormatter fLocalDate = DateTimeFormatter.ofPattern("uuuu-MM-dd");
+			String output = ld.format(fLocalDate);
+			System.out.println("Date Converted:" + output);
+			DateFormat targetDateFormat = new SimpleDateFormat("uuuu-MM-dd");
+			dateconverted = targetDateFormat.parse(output);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return dateconverted;
+	}
+
 	// private Date convertDate(Date date) {
-	// try {
-	// Date dateconverted = null;
-	// DateTimeFormatter f = DateTimeFormatter.ofPattern("E MMM dd HH:mm:ss z
-	// uuuu").withLocale(Locale.US);
-	// ZonedDateTime zdt = ZonedDateTime.parse(date.toString(), f);
-	// LocalDate ld = zdt.toLocalDate();
-	// DateTimeFormatter fLocalDate = DateTimeFormatter.ofPattern("dd/MM/uuuu");
-	// String output = ld.format(fLocalDate);
-	// System.out.println("Date Converted:" + output);
+	// DateFormat sourceDateFormat = new
+	// SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+	// sourceDateFormat.setTimeZone(TimeZone.getTimeZone("IST"));
 	// DateFormat targetDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-	// dateconverted = targetDateFormat.parse(output);
-	// } catch (ParseException e) {
+	// Date dateconverted = null;
+	// try {
+	// Date targetDateFormatted = sourceDateFormat.parse(date.toString());
+	// dateconverted = targetDateFormat.parse(targetDateFormatted.toString());
 	//
+	// } catch (ParseException e) {
+	// // TODO Auto-generated catch block
 	// e.printStackTrace();
+	// }
+	// return dateconverted;
 	// }
 
 }
