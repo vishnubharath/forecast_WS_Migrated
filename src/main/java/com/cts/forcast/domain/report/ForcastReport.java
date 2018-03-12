@@ -1,5 +1,7 @@
 package com.cts.forcast.domain.report;
 
+import java.util.Date;
+
 public class ForcastReport {
 
 	private Long reportId;
@@ -16,8 +18,8 @@ public class ForcastReport {
 	private String associateCity;
 	private String billableType;
 	private String associateGrade;
-	private String allocStartDate;
-	private String allocEnddate;
+	private Date allocStartDate;
+	private Date allocEndDate;
 	private String allocationPercentage;
 	private String actualMonth;
 	private String actualYear;
@@ -136,20 +138,20 @@ public class ForcastReport {
 		this.billableType = billableType;
 	}
 
-	public String getAllocStartDate() {
+	public Date getAllocStartDate() {
 		return allocStartDate;
 	}
 
-	public void setAllocStartDate(String allocStartDate) {
+	public void setAllocStartDate(Date allocStartDate) {
 		this.allocStartDate = allocStartDate;
 	}
 
-	public String getAllocEnddate() {
-		return allocEnddate;
+	public Date getAllocEndDate() {
+		return allocEndDate;
 	}
 
-	public void setAllocEnddate(String allocEnddate) {
-		this.allocEnddate = allocEnddate;
+	public void setAllocEndDate(Date allocEndDate) {
+		this.allocEndDate = allocEndDate;
 	}
 
 	public String getAllocationPercentage() {
