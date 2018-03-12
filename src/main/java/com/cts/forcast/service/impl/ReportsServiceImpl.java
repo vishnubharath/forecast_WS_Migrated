@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -34,11 +36,11 @@ public class ReportsServiceImpl implements ReportsService {
 	@Autowired
 	private ReportAdjustmentRepository adjustmentRepository;
 
-	public Collection<ForcastReport> getByProjectIds(List<Long> projectIds) {
+	public Collection<ForcastReport> getByProjectIds(List<Long> projectIds) throws ParseException {
 		return mapForecastReport(reportRepository.findByProjectIdIn(projectIds));
 	}
 
-	public Collection<ForcastReport> getAll() {
+	public Collection<ForcastReport> getAll() throws ParseException {
 		List<ForcastReport> forcastReports = mapForecastReport(reportRepository.findAllReportsWithLimited());
 		return forcastReports;
 	}
@@ -68,13 +70,21 @@ public class ReportsServiceImpl implements ReportsService {
 
 						repAdjustmentEntity.setActualYear(year);
 						repAdjustmentEntity.setActualMonth(month);
+						try {
+							repAdjustmentEntity.setRef_Date_Forecast(createRefDate(
+									repAdjustmentEntity.getForecastedMonth(), repAdjustmentEntity.getForecastedYear()));
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
 						repAdjustmentEntity.setReportentity(forcast);
 
 					});
 					Date allocStartDate = forcast.getAllocStartDate();
 					Date allocEndDate = forcast.getAllocEndDate();
-					forcast.setAllocStartDate(convertDate(allocStartDate));
-					forcast.setAllocEndDate(convertDate(allocEndDate));
+					forcast.setAllocStartDate(convertDate(allocStartDate, true));
+					forcast.setAllocEndDate(convertDate(allocEndDate, true));
 					forcast.setActualMonth(month);
 					forcast.setActualYear(year.toString());
 
@@ -89,7 +99,7 @@ public class ReportsServiceImpl implements ReportsService {
 
 	}
 
-	private List<ForcastReport> mapForecastReport(Iterable<ReportEntity> reportsEntities) {
+	private List<ForcastReport> mapForecastReport(Iterable<ReportEntity> reportsEntities) throws ParseException {
 		List<ForcastReport> forcastReports = new ArrayList<>();
 		for (ReportEntity reportEntity : reportsEntities) {
 			ForcastReport forecastReport = new ForcastReport();
@@ -108,10 +118,8 @@ public class ReportsServiceImpl implements ReportsService {
 			forecastReport.setAssociateCity(reportEntity.getAssociateCity());
 			forecastReport.setBillableType(reportEntity.getBillableType());
 			forecastReport.setAllocationPercentage(reportEntity.getAllocationPercentage());
-			forecastReport.setAllocStartDate(
-					reportEntity.getAllocStartDate() != null ? formatDate(reportEntity.getAllocStartDate()) : "");
-			forecastReport.setAllocEnddate(
-					reportEntity.getAllocEndDate() != null ? formatDate(reportEntity.getAllocEndDate()) : "");
+			forecastReport.setAllocStartDate(convertDate(reportEntity.getAllocStartDate(), false));
+			forecastReport.setAllocEndDate(convertDate(reportEntity.getAllocEndDate(), false));
 
 			List<ReportAdjustmentEntity> reportAdjustmentEntities = reportEntity.getReportAdjustmentEntity();
 
@@ -159,37 +167,50 @@ public class ReportsServiceImpl implements ReportsService {
 		return df.format(date);
 	}
 
-	private Date convertDate(Date date) throws ParseException {
+	private Date convertDate(Date date, boolean isUpdated) throws ParseException {
 		Date dateconverted = null;
-
-		DateTimeFormatter f = DateTimeFormatter.ofPattern("E MMM dd HH:mm:ss z uuuu").withLocale(Locale.US);
-		ZonedDateTime zdt = ZonedDateTime.parse(date.toString(), f);
-		LocalDate ld = zdt.toLocalDate();
-		System.out.println("ld" + ld.toString());
-		DateTimeFormatter fLocalDate = DateTimeFormatter.ofPattern("uuuu-MM-dd");
-		String output = ld.format(fLocalDate);
-		System.out.println("Date Converted:" + output);
-		DateFormat targetDateFormat = new SimpleDateFormat("uuuu-MM-dd");
-		dateconverted = targetDateFormat.parse(output);
+		DateTimeFormatter formatter = null;
+		LocalDate ld = null;
+		if (isUpdated) {
+			formatter = DateTimeFormatter.ofPattern("E MMM dd HH:mm:ss z uuuu").withLocale(Locale.US);
+			ZonedDateTime zdt = ZonedDateTime.parse(date.toString(), formatter);
+			ld = zdt.toLocalDate();
+			DateTimeFormatter fLocalDate = DateTimeFormatter.ofPattern("uuuu-MM-dd");
+			String output = ld.format(fLocalDate);
+			System.out.println("Date Converted:" + output);
+			DateFormat targetDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			dateconverted = targetDateFormat.parse(output);
+			System.out.println("final Date:" + dateconverted);
+		} else {
+			// formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd
+			// HH:mm:ss.S").withLocale(Locale.US);
+			ZoneId indianZone = ZoneId.of("Asia/Kolkata");
+			formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss.S");
+			LocalDateTime localtDateAndTime = LocalDateTime.parse(date.toString(), formatter);
+			ZonedDateTime zdt = ZonedDateTime.of(localtDateAndTime, indianZone);
+			ld = zdt.toLocalDate();
+			DateTimeFormatter fLocalDate = DateTimeFormatter.ofPattern("uuuu-MM-dd");
+			String output = ld.format(fLocalDate);
+			System.out.println("Date Converted:" + output);
+			DateFormat targetDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			dateconverted = targetDateFormat.parse(output);
+		}
 
 		return dateconverted;
 	}
 
-	// private Date convertDate(Date date) {
-	// DateFormat sourceDateFormat = new
-	// SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-	// sourceDateFormat.setTimeZone(TimeZone.getTimeZone("IST"));
-	// DateFormat targetDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-	// Date dateconverted = null;
-	// try {
-	// Date targetDateFormatted = sourceDateFormat.parse(date.toString());
-	// dateconverted = targetDateFormat.parse(targetDateFormatted.toString());
-	//
-	// } catch (ParseException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	// return dateconverted;
-	// }
+	private Date createRefDate(String forecastedMonth, long forecastedYear) throws ParseException {
 
+		Date date = new SimpleDateFormat("MMM").parse(forecastedMonth);
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		int monthNumber = cal.get(Calendar.MONTH);
+		cal.clear();
+		cal.set(Calendar.MONTH, monthNumber);
+		cal.set(Calendar.YEAR, (int) forecastedYear);
+		Date referenceDateForecasted = cal.getTime();
+
+		return referenceDateForecasted;
+
+	}
 }
