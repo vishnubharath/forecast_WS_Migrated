@@ -1,11 +1,8 @@
 package com.cts.forcast.service.impl;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -83,8 +80,8 @@ public class ReportsServiceImpl implements ReportsService {
 					});
 					Date allocStartDate = forcast.getAllocStartDate();
 					Date allocEndDate = forcast.getAllocEndDate();
-					forcast.setAllocStartDate(convertDate(allocStartDate, true));
-					forcast.setAllocEndDate(convertDate(allocEndDate, true));
+					forcast.setAllocStartDate(convertDate(allocStartDate));
+					forcast.setAllocEndDate(convertDate(allocEndDate));
 					forcast.setActualMonth(month);
 					forcast.setActualYear(year.toString());
 
@@ -118,8 +115,8 @@ public class ReportsServiceImpl implements ReportsService {
 			forecastReport.setAssociateCity(reportEntity.getAssociateCity());
 			forecastReport.setBillableType(reportEntity.getBillableType());
 			forecastReport.setAllocationPercentage(reportEntity.getAllocationPercentage());
-			forecastReport.setAllocStartDate(convertDate(reportEntity.getAllocStartDate(), false));
-			forecastReport.setAllocEndDate(convertDate(reportEntity.getAllocEndDate(), false));
+			forecastReport.setAllocStartDate(reportEntity.getAllocStartDate());
+			forecastReport.setAllocEndDate(reportEntity.getAllocEndDate());
 
 			List<ReportAdjustmentEntity> reportAdjustmentEntities = reportEntity.getReportAdjustmentEntity();
 
@@ -162,39 +159,18 @@ public class ReportsServiceImpl implements ReportsService {
 		}
 	}
 
-	private String formatDate(Date date) {
-		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-		return df.format(date);
-	}
-
-	private Date convertDate(Date date, boolean isUpdated) throws ParseException {
+	private Date convertDate(Date date) throws ParseException {
 		Date dateconverted = null;
 		DateTimeFormatter formatter = null;
-		LocalDate ld = null;
-		if (isUpdated) {
-			formatter = DateTimeFormatter.ofPattern("E MMM dd HH:mm:ss z uuuu").withLocale(Locale.US);
-			ZonedDateTime zdt = ZonedDateTime.parse(date.toString(), formatter);
-			ld = zdt.toLocalDate();
-			DateTimeFormatter fLocalDate = DateTimeFormatter.ofPattern("uuuu-MM-dd");
-			String output = ld.format(fLocalDate);
-			System.out.println("Date Converted:" + output);
-			DateFormat targetDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			dateconverted = targetDateFormat.parse(output);
-			System.out.println("final Date:" + dateconverted);
-		} else {
-			// formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd
-			// HH:mm:ss.S").withLocale(Locale.US);
-			ZoneId indianZone = ZoneId.of("Asia/Kolkata");
-			formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss.S");
-			LocalDateTime localtDateAndTime = LocalDateTime.parse(date.toString(), formatter);
-			ZonedDateTime zdt = ZonedDateTime.of(localtDateAndTime, indianZone);
-			ld = zdt.toLocalDate();
-			DateTimeFormatter fLocalDate = DateTimeFormatter.ofPattern("uuuu-MM-dd");
-			String output = ld.format(fLocalDate);
-			System.out.println("Date Converted:" + output);
-			DateFormat targetDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			dateconverted = targetDateFormat.parse(output);
-		}
+		LocalDate localDateConverted = null;
+
+		formatter = DateTimeFormatter.ofPattern("E MMM dd HH:mm:ss z uuuu").withLocale(Locale.US);
+		ZonedDateTime zdt = ZonedDateTime.parse(date.toString(), formatter);
+		localDateConverted = zdt.toLocalDate();
+		DateTimeFormatter fLocalDate = DateTimeFormatter.ofPattern("uuuu-MM-dd");
+		dateconverted = java.sql.Date.valueOf(localDateConverted.format(fLocalDate));
+		System.out.println(dateconverted);
+		// DateFormat targetDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 		return dateconverted;
 	}
