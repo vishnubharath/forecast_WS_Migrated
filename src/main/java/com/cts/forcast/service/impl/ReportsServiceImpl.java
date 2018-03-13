@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -120,8 +120,11 @@ public class ReportsServiceImpl implements ReportsService {
 
 			List<ReportAdjustmentEntity> reportAdjustmentEntities = reportEntity.getReportAdjustmentEntity();
 
-			reportAdjustmentEntities.sort(Comparator.comparing(ReportAdjustmentEntity::getRef_Date_Forecast,
-					Comparator.nullsFirst(Comparator.naturalOrder())));
+			Collections.sort(reportAdjustmentEntities,
+					(o1, o2) -> ((o1.getRef_Date_Forecast() == null) ? ((o2.getRef_Date_Forecast() == null) ? 0 : -1)
+							: ((o2.getRef_Date_Forecast() == null) ? 1
+									: o1.getRef_Date_Forecast().compareTo(o2.getRef_Date_Forecast()))));
+
 			List<ReportAdjusment> reportCostingList = new ArrayList<>();
 			for (ReportAdjustmentEntity reportAdjustmentEntity : reportAdjustmentEntities) {
 				ReportAdjusment reportAdjustment = new ReportAdjusment();
@@ -137,6 +140,7 @@ public class ReportsServiceImpl implements ReportsService {
 				reportAdjustment.setActualYear(reportAdjustmentEntity.getActualYear());
 				reportCostingList.add(reportAdjustment);
 			}
+
 			forecastReport.setReportAdjustmentEntity(
 					reportCostingList.toArray(new ReportAdjusment[reportCostingList.size()]));
 			forcastReports.add(forecastReport);
