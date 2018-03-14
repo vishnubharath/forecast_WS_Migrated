@@ -68,8 +68,14 @@ public class ReportsServiceImpl implements ReportsService {
 						repAdjustmentEntity.setActualYear(year);
 						repAdjustmentEntity.setActualMonth(month);
 						try {
-							repAdjustmentEntity.setRef_Date_Forecast(createRefDate(
-									repAdjustmentEntity.getForecastedMonth(), repAdjustmentEntity.getForecastedYear()));
+
+							if (repAdjustmentEntity.getForecastedMonth() != null
+									&& repAdjustmentEntity.getForecastedYear() != null) {
+								repAdjustmentEntity
+										.setRef_Date_Forecast(createRefDate(repAdjustmentEntity.getForecastedMonth(),
+												repAdjustmentEntity.getForecastedYear()));
+							}
+
 						} catch (ParseException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -174,8 +180,6 @@ public class ReportsServiceImpl implements ReportsService {
 		DateTimeFormatter fLocalDate = DateTimeFormatter.ofPattern("uuuu-MM-dd");
 		dateconverted = java.sql.Date.valueOf(localDateConverted.format(fLocalDate));
 		System.out.println(dateconverted);
-		// DateFormat targetDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
 		return dateconverted;
 	}
 
