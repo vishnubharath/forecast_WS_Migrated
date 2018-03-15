@@ -56,6 +56,7 @@ public class ReportsServiceImpl implements ReportsService {
 			if (forcast.getReportAdjustmentEntity() != null && forcast.getReportAdjustmentEntity().size() > 0) {
 				if (adjustmentRepository.exists(forcast.getReportAdjustmentEntity().get(0).getId())) {
 					forcast.getReportAdjustmentEntity().forEach(repAdjustmentEntity -> {
+						repAdjustmentEntity.setLastUpdatedTime(new Date());
 						repAdjustmentEntity.setReportentity(forcast);
 						adjustmentRepository.save(repAdjustmentEntity);
 					});
@@ -67,6 +68,7 @@ public class ReportsServiceImpl implements ReportsService {
 
 						repAdjustmentEntity.setActualYear(year);
 						repAdjustmentEntity.setActualMonth(month);
+						repAdjustmentEntity.setLastUpdatedTime(new Date());
 						try {
 
 							if (repAdjustmentEntity.getForecastedMonth() != null
@@ -90,6 +92,7 @@ public class ReportsServiceImpl implements ReportsService {
 					forcast.setAllocEndDate(convertDate(allocEndDate));
 					forcast.setActualMonth(month);
 					forcast.setActualYear(year.toString());
+					forcast.setLastUpdatedTime(new Date());
 
 					reportRepository.save(forcast);
 				}

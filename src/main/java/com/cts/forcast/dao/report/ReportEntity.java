@@ -82,6 +82,10 @@ public class ReportEntity implements Serializable {
 
 	@Column(name = "Last_Updated_User")
 	private String lastUpdatedUser;
+	
+	
+	@Column(name = "Last_Updated_Time")
+	private Date lastUpdatedTime;
 
 	@OneToMany(mappedBy = "reportentity", fetch = FetchType.LAZY)
 	@Cascade({ CascadeType.ALL })
@@ -254,5 +258,15 @@ public class ReportEntity implements Serializable {
 	public void setProjectId(Long projectId) {
 		this.projectId = projectId;
 	}
+
+	public Date getLastUpdatedTime() {
+		return lastUpdatedTime;
+	}
+
+	public void setLastUpdatedTime(Date lastUpdatedTime) {
+		this.lastUpdatedTime = lastUpdatedTime;
+	}
+	
+	
 
 }

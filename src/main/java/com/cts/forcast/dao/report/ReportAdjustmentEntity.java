@@ -38,23 +38,26 @@ public class ReportAdjustmentEntity implements Serializable {
 	@Column(name = "Revenue")
 	private String revenue;
 
-	@Column(name = "Forecasted_Month")
+	@Column(name = "Forecasted_Month",updatable=false)
 	private String forecastedMonth;
 
-	@Column(name = "Forecasted_Year")
+	@Column(name = "Forecasted_Year",updatable=false)
 	private Long forecastedYear;
 
-	@Column(name = "Date_Ref_Forecast")
+	@Column(name = "Date_Ref_Forecast",updatable=false)
 	private Date ref_Date_Forecast;
 
-	@Column(name = "Actual_Month")
+	@Column(name = "Actual_Month",updatable=false)
 	private String actualMonth;
 
-	@Column(name = "Actual_Year")
+	@Column(name = "Actual_Year",updatable=false)
 	private Long actualYear;
 
 	@Column(name = "Last_Updated_User")
 	private String lastUpdatedUser;
+	
+	@Column(name = "Last_Updated_Time")
+	private Date lastUpdatedTime;
 
 	@ManyToOne
 	@JoinColumns({ @JoinColumn(name = "Associate_Id", referencedColumnName = "Associate_Id"),
@@ -158,4 +161,13 @@ public class ReportAdjustmentEntity implements Serializable {
 		this.ref_Date_Forecast = ref_Date_Forecast;
 	}
 
+	
+	public Date getLastUpdatedTime() {
+		return lastUpdatedTime;
+	}
+
+	public void setLastUpdatedTime(Date lastUpdatedTime) {
+		this.lastUpdatedTime = lastUpdatedTime;
+	}
+	
 }
