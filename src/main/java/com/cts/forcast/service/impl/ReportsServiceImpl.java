@@ -38,7 +38,7 @@ public class ReportsServiceImpl implements ReportsService {
 	}
 
 	public Collection<ForcastReport> getAll() throws ParseException {
-		List<ForcastReport> forcastReports = mapForecastReport(reportRepository.findAllReportsWithLimited());
+		List<ForcastReport> forcastReports = mapForecastReport(reportRepository.findAll());
 		return forcastReports;
 	}
 
